@@ -29,4 +29,7 @@ public:
 
 	//Tank Fire if Aim is Ready
 	void AimTowardsCrossHair();
+
+	//returns Outparameter , If it true i.e hit on landscape
+	bool GetSightRayHitLocation(FVector& HitLocation) const;
 };
