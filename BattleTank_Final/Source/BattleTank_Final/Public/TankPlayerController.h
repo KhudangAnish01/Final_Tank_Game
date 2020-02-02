@@ -32,4 +32,9 @@ public:
 
 	//returns Outparameter , If it true i.e hit on landscape
 	bool GetSightRayHitLocation(FVector& HitLocation) const;
+
+	//Corss Hair Position
+	UPROPERTY(EditAnyWhere)
+		float CrossHairXPosition = 0.5;
+		float CrossHairYPosition = 0.333;
 };

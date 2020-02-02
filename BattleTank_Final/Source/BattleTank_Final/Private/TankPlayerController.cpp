@@ -39,13 +39,21 @@ void ATankPlayerController::AimTowardsCrossHair()
 	if (GetSightRayHitLocation(HitLocation))
 	{
 		//Tell tha tank aim at this point
-		UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"),*HitLocation.ToString())
+		//UE_LOG(LogTemp, Warning, TEXT("HitLocation: %s"),*HitLocation.ToString())
 	}
 }
 
 //Get The World location if linetrace through CrossHair,it it is true
 bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 {
-	HitLocation = FVector(1.0);
+
+	//find the cross hair position
+	int32 ViewPortSizeX, ViewPortSizeY;
+	GetViewportSize(ViewPortSizeX, ViewPortSizeY);
+
+	auto ScreenLocation = FVector2D(CrossHairXPosition * ViewPortSizeX, CrossHairYPosition * ViewPortSizeY);
+	//de-project the position of crosshair to worlld direction
+	//linetrace along the look direction,see what we hit
+	UE_LOG(LogTemp, Warning, TEXT("ScreenLocation: %s"), *ScreenLocation.ToString())
 	return true;
 }
