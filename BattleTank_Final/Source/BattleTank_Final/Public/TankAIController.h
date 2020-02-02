@@ -3,15 +3,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/PlayerController.h"
-#include "TankPlayerController.generated.h"
-class ATank;
+#include "AIController.h"
+#include "TankAIController.generated.h"
 
+class ATank;
 /**
  * 
  */
 UCLASS()
-class BATTLETANK_FINAL_API ATankPlayerController : public APlayerController
+class BATTLETANK_FINAL_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
 
@@ -20,6 +20,9 @@ public:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	// Gets the name of Tank actor possessed by the Player
+	//Gets the name of Tank actor possessed by the AI
 	ATank* GetTankControlled();
+
+	ATank* GetPlayerTank() const;
+	
 };
