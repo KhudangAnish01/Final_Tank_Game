@@ -20,6 +20,11 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+	void AimAt(FVector HitLocation);
+
 	//Gets the name of Tank actor possessed by the AI
 	ATank* GetTankControlled();
 

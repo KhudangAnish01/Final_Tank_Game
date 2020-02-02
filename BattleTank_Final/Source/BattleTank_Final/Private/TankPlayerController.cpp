@@ -39,7 +39,7 @@ void ATankPlayerController::AimTowardsCrossHair()
 	if (GetSightRayHitLocation(HitLocation))
 	{
 		//Tell tha tank aim at this point
-		UE_LOG(LogTemp, Warning, TEXT("Hit DIrection: %s"), *HitLocation.ToString())
+		GetTankControlled()->AimAt(HitLocation);
 	}
 }
 
