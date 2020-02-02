@@ -15,11 +15,18 @@ class BATTLETANK_FINAL_API ATankPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
-public:
 
+protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+public:
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
 	// Gets the name of Tank actor possessed by the Player
 	ATank* GetTankControlled();
+
+	//Tank Fire if Aim is Ready
+	void AimTowardsCrossHair();
 };

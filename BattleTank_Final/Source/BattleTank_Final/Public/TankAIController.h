@@ -15,11 +15,11 @@ class BATTLETANK_FINAL_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
 
-public:
-
+protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+public:
 	//Gets the name of Tank actor possessed by the AI
 	ATank* GetTankControlled();
 
