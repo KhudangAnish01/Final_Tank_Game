@@ -1,5 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
+#include"Components/StaticMeshComponent.h"
 #include "Engine/World.h"
 #include "TankAimingComponent.h"
 
@@ -11,6 +11,11 @@ UTankAimingComponent::UTankAimingComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
+}
+
+void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* BarrelToSet)
+{
+	Barrel = BarrelToSet;
 }
 
 
@@ -35,5 +40,6 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 void UTankAimingComponent::AimAt(FVector HitLocation)
 {
 	auto TankName =GetOwner()->GetName();
-	UE_LOG(LogTemp, Warning, TEXT("%s Aiming From: %s"), *TankName, *HitLocation.ToString())
+	auto BarrelLocation = Barrel->GetComponentLocation().ToString();
+	UE_LOG(LogTemp, Warning, TEXT("%s Aiming at: %s from %s"), *TankName, *HitLocation.ToString(),*BarrelLocation)
 }
