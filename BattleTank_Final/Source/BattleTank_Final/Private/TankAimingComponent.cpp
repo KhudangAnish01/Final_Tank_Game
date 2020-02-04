@@ -63,14 +63,13 @@ void UTankAimingComponent::AimAt(FVector HitLocation,float LaunchSpeed)
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal(); 
 		MoveBarrelTowards(AimDirection);
 	}
-
+	//if no solution then do nothing
 	else
 	{
 		auto Time = GetWorld()->GetTimeSeconds();
 		UE_LOG(LogTemp, Warning, TEXT("%s: no Aiming"), Time)
 	}
 
-	//if no solution then do nothing
 }
 
 void  UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
@@ -78,8 +77,8 @@ void  UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	//work-out Difference Between current Barrel Rotation and AimDirection
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
-	auto DeltaRotator = AimAsRotator - BarrelRotator;
-	Barrel->ElevateBarrel(5);
+	auto DeltaRotator = AimAsRotator - BarrelRotator;//(if Barrel move up then +ve ,if Barrel move up We get -ve)
+	Barrel->ElevateBarrel(DeltaRotator.Pitch);
 	//move the Barrel Right amount this frame
 		////given a max elevation speed and frame time
 }
