@@ -64,6 +64,12 @@ void UTankAimingComponent::AimAt(FVector HitLocation,float LaunchSpeed)
 		MoveBarrelTowards(AimDirection);
 	}
 
+	else
+	{
+		auto Time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT("%s: no Aiming"), Time)
+	}
+
 	//if no solution then do nothing
 }
 
