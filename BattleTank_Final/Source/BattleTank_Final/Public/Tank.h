@@ -6,6 +6,7 @@
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
+class AProjectile;
 class UTankTurret;
 class UTankBarrel;
 class UTankAimingComponent;
@@ -30,6 +31,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 		void Fire();
 
+	UPROPERTY(EditAnyWhere, Category = Setup)
+		TSubclassOf<AProjectile> ProjectileBlueprint;
 
 protected:
 	// Called when the game starts or when spawned
@@ -43,4 +46,7 @@ public:
 
 	UPROPERTY(EditAnyWhere, Category = Firing)
 		float LaunchSpeed = 8000;//starting value with 1000m/s cause in ue4 all loaction is in cm
+
+	//Local Barrel Reference
+	UTankBarrel* Barrel = nullptr;
 };
