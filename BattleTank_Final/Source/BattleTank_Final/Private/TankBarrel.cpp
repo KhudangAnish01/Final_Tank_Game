@@ -5,8 +5,8 @@
 
 void UTankBarrel::ElevateBarrel(float RelativeSpeed)
 {
-	//auto Time = GetWorld()->GetTimeSeconds();
-	//UE_LOG(LogTemp, Warning, TEXT("%f: BarrelElevate Called At Speed: %f"), Time,DegreePerSecond)
+	//move the Barrel Right amount this frame
+		////given a max elevation speed and frame time
 	RelativeSpeed= FMath::Clamp<float>(RelativeSpeed, -1, +1);
 	auto ElevationChange = RelativeSpeed * MaxDegreePerSecond * GetWorld()->DeltaTimeSeconds;
 	auto RawNewElevation = RelativeRotation.Pitch + ElevationChange;//RelativeRotation defines present rotation of component (TankBarrel)

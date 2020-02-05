@@ -39,7 +39,7 @@ public:
 		float CrossHairYPosition = 0.333;
 
 	UPROPERTY(EditAnyWhere)
-		float LineTraceRange = 10000000;
+		float LineTraceRange = 1000000;
 
 	bool GetLookDirection(FVector2D ScreenLocation,FVector &LookDirection) const;
 

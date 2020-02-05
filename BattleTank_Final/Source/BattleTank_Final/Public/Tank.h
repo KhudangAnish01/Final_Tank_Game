@@ -38,5 +38,5 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UPROPERTY(EditAnyWhere, Category = Firing)
-		float LaunchSpeed = 100000;//starting value with 1000m/s cause in ue4 all loaction is in cm
+		float LaunchSpeed = 8000;//starting value with 1000m/s cause in ue4 all loaction is in cm
 };
