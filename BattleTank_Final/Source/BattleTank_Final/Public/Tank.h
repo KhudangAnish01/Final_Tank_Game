@@ -31,7 +31,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 		void Fire();
 
-	UPROPERTY(EditAnyWhere, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
 		TSubclassOf<AProjectile> ProjectileBlueprint;
 
 protected:
@@ -44,7 +44,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UPROPERTY(EditAnyWhere, Category = Firing)
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
 		float LaunchSpeed = 8000;//starting value with 1000m/s cause in ue4 all loaction is in cm
 
 	//Local Barrel Reference

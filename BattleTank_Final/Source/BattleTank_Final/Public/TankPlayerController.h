@@ -34,14 +34,14 @@ public:
 	bool GetSightRayHitLocation(FVector& HitLocation) const;
 
 	//Corss Hair Position
-	UPROPERTY(EditAnyWhere)
+	UPROPERTY(EditDefaultsOnly)
 		float CrossHairXPosition = 0.5;
-		float CrossHairYPosition = 0.333;
+	float CrossHairYPosition = 0.333;
 
-	UPROPERTY(EditAnyWhere)
+	UPROPERTY(EditDefaultsOnly)
 		float LineTraceRange = 1000000;
 
-	bool GetLookDirection(FVector2D ScreenLocation,FVector &LookDirection) const;
+	bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const;
 
 	bool GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const;
 };
