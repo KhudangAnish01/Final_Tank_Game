@@ -43,14 +43,15 @@ protected:
 public:	
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+		float ReloadTimeInSecond = 3;
 
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 		float LaunchSpeed = 8000;//starting value with 1000m/s cause in ue4 all loaction is in cm
 
 	//Local Barrel Reference
 	UTankBarrel* Barrel = nullptr;
-
-	float ReloadTimeInSecond = 3;
 
 	double LastFireTime = 0;
 
