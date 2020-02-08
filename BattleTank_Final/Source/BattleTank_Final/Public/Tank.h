@@ -10,6 +10,7 @@ class AProjectile;
 class UTankTurret;
 class UTankBarrel;
 class UTankAimingComponent;
+class UTankMovementComponent;
 
 UCLASS()
 class BATTLETANK_FINAL_API ATank : public APawn
@@ -39,6 +40,9 @@ protected:
 	virtual void BeginPlay() override;
 
 	UTankAimingComponent* TankAimingComponent = nullptr;
+
+	UPROPERTY(BlueprintReadOnly)
+		UTankMovementComponent* TankMovementComponent = nullptr;
 
 public:	
 	// Called to bind functionality to input
