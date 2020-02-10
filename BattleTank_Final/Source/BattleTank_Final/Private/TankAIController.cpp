@@ -5,7 +5,6 @@
 #include "Tank.h"
 #include "TankAIController.h"
 
-
 void ATankAIController ::BeginPlay()
 {
 	Super::BeginPlay();
@@ -22,9 +21,7 @@ void ATankAIController::Tick(float DeltaTime)
 	if (PlayerTank)
 	{
 		MoveToActor(PlayerTank, AcceptanceRadius);
-
 		ControlledTank->AimAt(PlayerTank->GetActorLocation());
-		//fire if ready
 		//ControlledTank->Fire();
 	}
 	
