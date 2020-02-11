@@ -20,12 +20,16 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	// Gets the name of Tank actor possessed by the Player
+	UFUNCTION(BlueprintCallable,Category="Setup")
+		ATank* GetTankControlled() const;
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	// Gets the name of Tank actor possessed by the Player
-	ATank* GetTankControlled();
+private:
+	
 
 	//Tank Fire if Aim is Ready
 	void AimTowardsCrossHair();

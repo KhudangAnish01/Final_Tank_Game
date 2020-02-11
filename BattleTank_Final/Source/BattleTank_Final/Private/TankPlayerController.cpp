@@ -16,7 +16,7 @@ void ATankPlayerController::Tick(float DeltaTime)
 	AimTowardsCrossHair();
 }
 
-ATank* ATankPlayerController::GetTankControlled()
+ATank* ATankPlayerController::GetTankControlled() const
 {
 	return Cast<ATank>(GetPawn());
 }
@@ -64,7 +64,6 @@ bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& 
 	{
 		return true;
 	}
-
 	return false;
 }
 
