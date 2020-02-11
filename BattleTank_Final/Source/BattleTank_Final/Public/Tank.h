@@ -42,7 +42,7 @@ private:
 		float LaunchSpeed = 8000;//starting value with 1000m/s cause in ue4 all loaction is in cm
 
 	//Local Barrel Reference
-	UTankBarrel* Barrel = nullptr;
+	UTankBarrel* Barrel = nullptr;//TODO Remove
 
 	double LastFireTime = 0;
 
