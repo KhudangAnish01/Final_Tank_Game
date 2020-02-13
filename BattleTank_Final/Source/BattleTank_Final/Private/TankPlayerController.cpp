@@ -3,11 +3,20 @@
 #include "Engine/World.h"
 #include "TankPlayerController.h"
 #include "Tank.h"
-
+#include"TankAimingComponent.h"
 
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+	auto AimComponent = GetTankControlled()->FindComponentByClass<UTankAimingComponent>();
+	if (AimComponent)
+	{
+		FoundAimingComponent(AimComponent);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("AimComponent is not found"))
+	}
 }
 
 void ATankPlayerController::Tick(float DeltaTime)

@@ -20,6 +20,9 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
+		void FoundAimingComponent(UTankAimingComponent* AimRef);
+
 	// Gets the name of Tank actor possessed by the Player
 	UFUNCTION(BlueprintCallable,Category="Setup")
 		ATank* GetTankControlled() const;
