@@ -32,7 +32,7 @@ ATank* ATankPlayerController::GetTankControlled() const
 
 void ATankPlayerController::AimTowardsCrossHair()
 {
-	if (!GetTankControlled()) { return; }
+	if (!ensure(GetTankControlled())) { return; }
 
 	FVector HitLocation;//out parameter
 

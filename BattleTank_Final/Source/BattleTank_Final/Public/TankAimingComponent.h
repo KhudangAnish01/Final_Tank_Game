@@ -36,7 +36,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(BlueprintReadOnly, Category = "fire")
-		EFiringState FiringState = EFiringState::Locked;
+		EFiringState FiringState = EFiringState::Aiming;
 
 public:	
 	// Called every frame

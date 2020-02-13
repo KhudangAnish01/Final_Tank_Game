@@ -26,14 +26,15 @@ void ATank::BeginPlay()
 
 void ATank::AimAt(FVector HitLocation)
 {
-	if (!TankAimingComponent) { return; }
+	if (!ensure(TankAimingComponent)){ return; }
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);//Delegating controls to Aiming Component
 }
 
 void ATank::Fire()
 {
+	if (!ensure(Barrel)) { return; }
 	bool IsReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSecond;
-		if (Barrel && IsReloaded) { 
+		if (IsReloaded) { 
 			auto Projectile=GetWorld()->SpawnActor<AProjectile>(
 				ProjectileBlueprint,
 				Barrel->GetSocketLocation(FName("Projectile")),
