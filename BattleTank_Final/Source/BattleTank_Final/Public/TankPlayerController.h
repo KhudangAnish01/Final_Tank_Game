@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "TankPlayerController.generated.h"
-class ATank;
 
 /**
  * 
@@ -22,10 +21,6 @@ protected:
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
 		void FoundAimingComponent(UTankAimingComponent* AimRef);
-
-	// Gets the name of Tank actor possessed by the Player
-	UFUNCTION(BlueprintCallable,Category="Setup")
-		ATank* GetTankControlled() const;
 
 public:
 	// Called every frame

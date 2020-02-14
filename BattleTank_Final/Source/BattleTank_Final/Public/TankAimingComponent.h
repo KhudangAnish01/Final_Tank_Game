@@ -24,7 +24,7 @@ class BATTLETANK_FINAL_API UTankAimingComponent : public UActorComponent
 
 public:	
 
-	void AimAt(FVector HitLocation,float LaunchSpeed);
+	void AimAt(FVector HitLocation);
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 		void initialse(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
@@ -45,6 +45,9 @@ public:
 private:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")//starting value with 1000m/s cause in ue4 all loaction is in cm
+		float LaunchSpeed = 8000;
 
 	UTankBarrel* Barrel = nullptr;
 

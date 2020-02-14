@@ -1,5 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
+#include "TankAimingComponent.h"
 #include "BattleTank_FinalGameModeBase.h"
 #include "Engine/World.h"
 #include "Tank.h"
@@ -16,14 +16,14 @@ void ATankAIController::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	//todo move towards player
 	//to aim player
-	auto PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
-	auto ControlledTank = Cast<ATank>(GetPawn());
-	if (PlayerTank)
+	auto PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
+	auto ControlledTank = GetPawn();
+	if (!ensure(PlayerTank && ControlledTank))
 	{
 		MoveToActor(PlayerTank, AcceptanceRadius);
-		ControlledTank->AimAt(PlayerTank->GetActorLocation());
+		auto AimComponent = ControlledTank->FindComponentByClass<UTankAimingComponent>();
+		AimComponent->AimAt(PlayerTank->GetActorLocation());
 		//ControlledTank->Fire();
 	}
-	
 }
 
