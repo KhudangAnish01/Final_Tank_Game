@@ -8,6 +8,7 @@
 
 class UTankTurret;
 class UTankBarrel;
+class AProjectile;
 
 UENUM()
 enum class EFiringState : uint8
@@ -28,8 +29,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 		void initialse(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
-	
-	//TODO SetTurretReference
+
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+		void Fire();
 
 protected:
 	// Called when the game starts
@@ -38,6 +40,9 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category = "fire")
 		EFiringState FiringState = EFiringState::Aiming;
 
+	UPROPERTY(EditDefaultsOnly, Category = " Setup")
+		TSubclassOf<AProjectile> ProjectileBlueprint;
+	  
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
@@ -46,6 +51,8 @@ private:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
+	void MoveBarrelTowards(FVector AimDirection);
+
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")//starting value with 1000m/s cause in ue4 all loaction is in cm
 		float LaunchSpeed = 8000;
 
@@ -53,6 +60,8 @@ private:
 
 	UTankTurret* Turret = nullptr;
 
-	void MoveBarrelTowards(FVector AimDirection);
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+		float ReloadTimeInSecond = 3;
 
+	double LastFireTime = 0;
 };
