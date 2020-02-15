@@ -38,7 +38,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(BlueprintReadOnly, Category = "fire")
-		EFiringState FiringState = EFiringState::Aiming;
+		EFiringState FiringState = EFiringState::Reloading;
 
 	UPROPERTY(EditDefaultsOnly, Category = " Setup")
 		TSubclassOf<AProjectile> ProjectileBlueprint;
@@ -53,6 +53,8 @@ private:
 
 	void MoveBarrelTowards(FVector AimDirection);
 
+	bool IsBarrelMoving();
+
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")//starting value with 1000m/s cause in ue4 all loaction is in cm
 		float LaunchSpeed = 8000;
 
@@ -64,4 +66,6 @@ private:
 		float ReloadTimeInSecond = 3;
 
 	double LastFireTime = 0;
+
+	FVector AimDirection;
 };
