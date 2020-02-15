@@ -23,12 +23,16 @@ public:
     UFUNCTION()
         void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 
-    virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	void ApplySidewaysForce();
 
     UFUNCTION(BlueprintCallable, Category = "Input")
         void SetThrottle(float Throttle);
 
+    void DriveTrack(float Throttle);
+
     //Max Force track applied ,in newton
     UPROPERTY(EditDefaultsOnly)
         float TrackMaxDrivingForce = 40000000;
+
+    float CurrentThrottle = 0;
 }; 

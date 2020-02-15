@@ -15,27 +15,36 @@ void UTankTrack::BeginPlay()
 
 void UTankTrack::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Hitting on ground"))
+	ApplySidewaysForce();
+	DriveTrack(CurrentThrottle);
+	CurrentThrottle = 0;
 }
 
-void UTankTrack::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{//each tick it place opposite force to stop slippage if angle between GetRightVector and GetComponentVelocity is 0 and 180 i.e(cosine law)
+void UTankTrack::ApplySidewaysForce()
+{
+	//each tick it place opposite force to stop slippage if angle between GetRightVector and GetComponentVelocity is 0 and 180 i.e(cosine law)
 	auto SlippageSpeed = FVector::DotProduct(GetRightVector(), GetComponentVelocity());
 	//required acceleration
-	auto CorrectioAcceleration = -SlippageSpeed / DeltaTime* GetRightVector();//here a=(change of velocity/change of time).We multiply it with getrightvector cause tank need to move toward right
-	
+	auto DeltaTime = GetWorld()->GetDeltaSeconds();
+	auto CorrectioAcceleration = -SlippageSpeed / DeltaTime * GetRightVector();//here a=(change of velocity/change of time).We multiply it with getrightvector cause tank need to move toward right
+
 	auto TankRoot = Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent());
 	//applied sideway force
-	auto SideWayForce = TankRoot->GetMass() * CorrectioAcceleration/2;
+	auto SideWayForce = TankRoot->GetMass() * CorrectioAcceleration / 2;
 	TankRoot->AddForce(SideWayForce);
 }
 
 void  UTankTrack::SetThrottle(float Throttle)
 {
-	auto ForceApplied = GetForwardVector() * Throttle * TrackMaxDrivingForce;//get forward get forward value
+	CurrentThrottle = FMath::Clamp<float>(CurrentThrottle + Throttle, -1, 1);
+}
+
+void UTankTrack::DriveTrack(float Throttle)
+{
+	auto ForceApplied = GetForwardVector() * CurrentThrottle * TrackMaxDrivingForce;//get forward get forward value
 	auto ForceLocation = GetComponentLocation();
 	//we must use tankroot to apply force and must be uprimitivecomponent.
-	auto TankRoot = Cast<UPrimitiveComponent> (GetOwner()->GetRootComponent());
+	auto TankRoot = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
 	TankRoot->AddForceAtLocation(ForceApplied, ForceLocation);
 }
 
