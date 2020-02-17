@@ -33,12 +33,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 		void Fire();
 
+	EFiringState GetFiringState() const;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
 	UPROPERTY(BlueprintReadOnly, Category = "fire")
-		EFiringState FiringState = EFiringState::Reloading;
+		EFiringState FiringState;
 
 	UPROPERTY(EditDefaultsOnly, Category = " Setup")
 		TSubclassOf<AProjectile> ProjectileBlueprint;
@@ -56,7 +58,7 @@ private:
 	bool IsBarrelMoving();
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")//starting value with 1000m/s cause in ue4 all loaction is in cm
-		float LaunchSpeed = 8000;
+		float LaunchSpeed = 3000;
 
 	UTankBarrel* Barrel = nullptr;
 

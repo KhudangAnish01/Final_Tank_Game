@@ -48,13 +48,18 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	}
 }
 
+EFiringState UTankAimingComponent::GetFiringState() const
+{
+	return FiringState;
+}
+
 bool UTankAimingComponent::IsBarrelMoving()
 {
 	if (!ensure(Barrel)) { return false; }
 	auto BarrelForward = Barrel->GetForwardVector();
 	return !BarrelForward.Equals(AimDirection, 0.01);
 }
-
+  
 
 void UTankAimingComponent::AimAt(FVector HitLocation)
 {
@@ -103,7 +108,7 @@ void  UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	
 void UTankAimingComponent::Fire()
 {
-	if (FiringState!= EFiringState::Reloading) {
+	if (FiringState== EFiringState::Aiming || FiringState == EFiringState::Locked) {
 		if (!ensure(Barrel)) { return; }
 		if (!ensure(ProjectileBlueprint)) { return; }
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
@@ -115,3 +120,4 @@ void UTankAimingComponent::Fire()
 		LastFireTime = FPlatformTime::Seconds();
 	}
 }
+

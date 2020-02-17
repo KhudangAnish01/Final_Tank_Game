@@ -18,10 +18,10 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UPROPERTY(EditAnyWhere, Category="Setup")
+		float AcceptanceRadius = 6000;//to make AItank stop at 30 cm before Playertank
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-private:
-	float AcceptanceRadius = 3000;//to make AItank stop at 30 cm before Playertank
 };
