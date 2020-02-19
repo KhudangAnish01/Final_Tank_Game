@@ -12,15 +12,16 @@ class BATTLETANK_FINAL_API ATank : public APawn
 	GENERATED_BODY()
 
 public:
-	
-	
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-	
+
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
 private:
 	// Sets default values for this pawn's properties
 	ATank();
 
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")//use manipulate
+	int32 StartingHealth = 20;
+
+	UPROPERTY(VisibleAnyWhere, Category = "Health")//remains constant don't change
+	int32 CurrentHealth = StartingHealth;
 };

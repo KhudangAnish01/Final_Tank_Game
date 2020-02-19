@@ -1,5 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "GameFramework/DamageType.h"
+#include"Kismet/GameplayStatics.h"
 #include "TimerManager.h"
 #include "PhysicsEngine/RadialForceComponent.h"
 #include "Engine/World.h"
@@ -17,17 +19,17 @@ AProjectile::AProjectile()
 	TankAmmo->SetNotifyRigidBodyCollision(true);
 	TankAmmo->SetVisibility(false);
 	LaunchBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Launch Blast"));
-	LaunchBlast->AttachTo(RootComponent);
+	LaunchBlast->AttachToComponent(RootComponent,FAttachmentTransformRules::KeepRelativeTransform);
 
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Projectile Movement"));
 	ProjectileMovement->bAutoActivate = false;
 
 	ImpactBlast= CreateDefaultSubobject<UParticleSystemComponent>(FName("Impact Blast"));
-	ImpactBlast->AttachTo(RootComponent);
+	ImpactBlast->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	ImpactBlast->bAutoActivate = false;
 
 	ExplosionForce = CreateDefaultSubobject<URadialForceComponent>(FName("Explosion Force"));
-	ExplosionForce->AttachTo(RootComponent);
+	ExplosionForce->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 }
 
 // Called when the game starts or when spawned
@@ -60,6 +62,15 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 
 	FTimerHandle Timer;
 	GetWorld()->GetTimerManager().SetTimer(Timer, this, &AProjectile::OnTimerExpire, DelayDestory, false);
+	
+	UGameplayStatics::ApplyRadialDamage(
+		this,
+		ProjectileDamage,
+		GetActorLocation(),
+		ExplosionForce->Radius,
+		UDamageType::StaticClass(),//Returns a UClass object representing this class at runtime
+		TArray<AActor*>()//all actors receives the damage
+	);
 }
 
 void AProjectile::OnTimerExpire()
