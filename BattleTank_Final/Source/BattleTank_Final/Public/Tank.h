@@ -15,12 +15,15 @@ public:
 
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
+	UFUNCTION(BlueprintPure,Category="Health")
+	float GetHealthPercent() const;
+
 private:
 	// Sets default values for this pawn's properties
 	ATank();
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")//use manipulate
-	int32 StartingHealth = 20;
+	int32 StartingHealth = 100;
 
 	UPROPERTY(VisibleAnyWhere, Category = "Health")//remains constant don't change
 	int32 CurrentHealth = StartingHealth;
