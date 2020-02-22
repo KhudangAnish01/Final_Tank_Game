@@ -32,7 +32,7 @@ public:
 
     //Max Force track applied ,in newton
     UPROPERTY(EditDefaultsOnly)
-        float TrackMaxDrivingForce = 40000000;
+        float TrackMaxDrivingForce = 50000000;
 
     float CurrentThrottle = 0;
 }; 

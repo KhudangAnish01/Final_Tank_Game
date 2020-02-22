@@ -26,9 +26,10 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-private:
-	
+	UFUNCTION()
+	void PossessedDeath();
 
+private:
 	//Tank Fire if Aim is Ready
 	void AimTowardsCrossHair();
 
@@ -46,4 +47,6 @@ private:
 	bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const;
 
 	bool GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const;
+
+	void SetPawn(APawn* InPawn);
 };

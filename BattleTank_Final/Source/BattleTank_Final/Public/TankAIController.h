@@ -22,6 +22,13 @@ protected:
 		float AcceptanceRadius = 6000;//to make AItank stop at 30 cm before Playertank
 
 public:
+
+	void SetPawn(APawn* InPawn);
+
+	UFUNCTION()
+	void OnPossedTankDeath();
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 };
+

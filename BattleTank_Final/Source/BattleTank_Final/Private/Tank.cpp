@@ -12,6 +12,12 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 }
 
+void ATank::BeginPlay()
+{
+	Super::BeginPlay();
+	CurrentHealth = StartingHealth;//because it call after BP_Constructor which makes logical error in gameplay health
+}
+
 float ATank::GetHealthPercent() const
 {
 	return (float)CurrentHealth / (float)StartingHealth;
@@ -27,7 +33,7 @@ float ATank::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEve
 
 	if (CurrentHealth <= 0)
 	{
-		UE_LOG(LogTemp,Warning,TEXT("DEAD"))
+		OnDead.Broadcast();
 	}
 	return DamageToApply;
 }

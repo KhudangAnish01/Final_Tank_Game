@@ -3,10 +3,12 @@
 #include "Engine/World.h"
 #include "TankPlayerController.h"
 #include"TankAimingComponent.h"
+#include"Tank.h"
 
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+	if (!GetPawn()) { return; } // e.g. if not possessing
 	auto AimComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimComponent)) { return; }
 		FoundAimingComponent(AimComponent);
@@ -18,8 +20,15 @@ void ATankPlayerController::Tick(float DeltaTime)
 	AimTowardsCrossHair();
 }
 
+void ATankPlayerController::PossessedDeath()
+{
+	if (!GetPawn()) { return; } // e.g. if not possessing
+	StartSpectatingOnly();
+}
+
 void ATankPlayerController::AimTowardsCrossHair()
 {
+	if (!GetPawn()) { return; } // e.g. if not possessing
 	auto AimComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimComponent)) { return; }
 
@@ -84,3 +93,16 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
 	}
 	return false;
 }
+
+void ATankPlayerController::SetPawn(APawn* InPawn)
+{
+	Super::SetPawn(InPawn);
+
+	if (InPawn)
+	{
+		auto PossessedTank = Cast<ATank>(InPawn);
+		if (!ensure(PossessedTank)) { return; }
+		PossessedTank->OnDead.AddUniqueDynamic(this, &ATankPlayerController::PossessedDeath);
+	}
+}
+
