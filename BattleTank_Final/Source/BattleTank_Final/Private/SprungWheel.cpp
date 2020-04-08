@@ -1,5 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "SprungWheel.h"
 
@@ -12,31 +13,37 @@ ASprungWheel::ASprungWheel()
 	MassWheelConstriant = CreateDefaultSubobject<UPhysicsConstraintComponent>(FName("MassWheelConstriant"));
 	SetRootComponent(MassWheelConstriant);
 
-	Mass = CreateDefaultSubobject<UStaticMeshComponent>(FName("Mass"));
-	Mass->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	Axle = CreateDefaultSubobject<USphereComponent>(FName("Axle"));
+	Axle->SetupAttachment(MassWheelConstriant);
 
-	Wheel= CreateDefaultSubobject<UStaticMeshComponent>(FName("Wheel"));
-	Wheel->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	Wheel = CreateDefaultSubobject<USphereComponent>(FName("Wheel"));
+	Wheel->SetupAttachment(Axle);
+
+	AxleWheelConstriant = CreateDefaultSubobject<UPhysicsConstraintComponent>(FName("AxleWheelConstriant"));
+	AxleWheelConstriant->SetupAttachment(Axle);
 }
 
 // Called when the game starts or when spawned
 void ASprungWheel::BeginPlay()
 {
 	Super::BeginPlay();
-	if (GetAttachParentActor())
-	{
-		UE_LOG(LogTemp, Warning,TEXT( "not null"));
-	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("null"));
-	}
-	
+	SetupConstriant();
+}
+
+void  ASprungWheel::SetupConstriant()
+{
+	if (!GetAttachParentActor()) { return; }
+	//GetRootComponent() compulsory
+	UPrimitiveComponent* BodyTank = Cast<UPrimitiveComponent>(GetAttachParentActor()->GetRootComponent());
+	if (!BodyTank) { return; }
+	MassWheelConstriant->SetConstrainedComponents(BodyTank, NAME_None, Axle, NAME_None);
+	AxleWheelConstriant->SetConstrainedComponents(Axle, NAME_None, Wheel, NAME_None);
 }
 
 // Called every frame
 void ASprungWheel::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
+
 

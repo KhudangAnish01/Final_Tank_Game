@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "SprungWheel.generated.h"
 
+class USphereComponent;
+
 UCLASS()
 class BATTLETANK_FINAL_API ASprungWheel : public AActor
 {
@@ -23,12 +25,19 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(VisibleAnyWhere, Category = "Component")
-		UStaticMeshComponent* Mass = nullptr;
+private:
+	void SetupConstriant();
 
 	UPROPERTY(VisibleAnyWhere, Category = "Component")
-		UStaticMeshComponent* Wheel = nullptr;
+		USphereComponent * Wheel = nullptr;
 
 	UPROPERTY(VisibleAnyWhere, Category = "Component")
 		UPhysicsConstraintComponent* MassWheelConstriant = nullptr;
+
+	UPROPERTY(VisibleAnyWhere, Category = "Component")
+		USphereComponent* Axle = nullptr;
+
+	UPROPERTY(VisibleAnyWhere, Category = "Component")
+		UPhysicsConstraintComponent* AxleWheelConstriant = nullptr;
+
 };
