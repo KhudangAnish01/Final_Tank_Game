@@ -1,5 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
+//Kahe actor attach garnu parnay xa vanay with actor we used uscenecomponent between these actor
 #pragma once
 
 #include "CoreMinimal.h"
@@ -16,15 +16,19 @@ public:
 	// Sets default values for this component's properties
 	USpawnPoint();
 
+	// Called every frame
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	AActor* GetSpawnActor()	const {return SpawnActor;}
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
 private:
 	UPROPERTY(EditDefaultsOnly, Category = " Setup")
 		TSubclassOf<AActor> SpawnClass;
+
+	UPROPERTY()
+		AActor* SpawnActor;
 };

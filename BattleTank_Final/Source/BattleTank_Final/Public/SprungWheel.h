@@ -1,5 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
+//spawnchild
 #pragma once
 #include "PhysicsEngine/PhysicsConstraintComponent.h"
 #include "CoreMinimal.h"
@@ -17,13 +17,14 @@ public:
 	// Sets default values for this actor's properties
 	ASprungWheel();
 
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
+
+	void AddDrivingForce(float ForceForDrive);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
 private:
 	void SetupConstriant();
@@ -39,5 +40,4 @@ private:
 
 	UPROPERTY(VisibleAnyWhere, Category = "Component")
 		UPhysicsConstraintComponent* AxleWheelConstriant = nullptr;
-
 };
