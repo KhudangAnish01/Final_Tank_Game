@@ -11,8 +11,7 @@ UTankTrack::UTankTrack()
 
 void  UTankTrack::SetThrottle(float Throttle)
 {
-	auto CurrentThrottle = FMath::Clamp<float>(Throttle, -1, 1);
-	DriveTrack(CurrentThrottle);
+	DriveTrack(Throttle);
 }
 
 void UTankTrack::DriveTrack(float CurrentThrottle)

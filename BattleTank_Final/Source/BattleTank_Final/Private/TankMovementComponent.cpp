@@ -10,7 +10,7 @@ void UTankMovementComponent::Inialise(UTankTrack* LeftTrackToSet, UTankTrack* Ri
 	RightTrack = RightTrackToSet;
 }
 
-void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
+void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)//AI Movement
 {
 	auto TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
 	auto MoveVelocityString = MoveVelocity.GetSafeNormal();

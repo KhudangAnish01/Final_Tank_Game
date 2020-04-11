@@ -29,6 +29,12 @@ protected:
 private:
 	void SetupConstriant();
 
+	//ufunction must compulsory cause it is dynamic delegate
+	UFUNCTION()
+		void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
+	void ApplyForce();
+
 	UPROPERTY(VisibleAnyWhere, Category = "Component")
 		USphereComponent * Wheel = nullptr;
 
@@ -40,4 +46,6 @@ private:
 
 	UPROPERTY(VisibleAnyWhere, Category = "Component")
 		UPhysicsConstraintComponent* AxleWheelConstriant = nullptr;
+
+	float TotalForceForDrive=0;
 };
