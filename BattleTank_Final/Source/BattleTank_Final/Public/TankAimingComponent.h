@@ -68,7 +68,7 @@ private:
 		float ReloadTimeInSecond = 3;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-		int RoundsLeft = 3;
+		int RoundsLeft = 3;//holds fire for 3 second
 
 	UTankBarrel* Barrel = nullptr;
 

@@ -16,7 +16,7 @@ AProjectile::AProjectile()
 	PrimaryActorTick.bCanEverTick = true;
 	TankAmmo = CreateDefaultSubobject<UStaticMeshComponent>(FName("Tank Ammo"));
 	SetRootComponent(TankAmmo);
-	TankAmmo->SetNotifyRigidBodyCollision(true);
+	TankAmmo->SetNotifyRigidBodyCollision(true);//enable on hit event 
 	TankAmmo->SetVisibility(false);
 	LaunchBlast = CreateDefaultSubobject<UParticleSystemComponent>(FName("Launch Blast"));
 	LaunchBlast->AttachToComponent(RootComponent,FAttachmentTransformRules::KeepRelativeTransform);
@@ -55,17 +55,18 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 {
 	LaunchBlast->Deactivate();
 	ImpactBlast->Activate();
-	ExplosionForce->FireImpulse();
+	ExplosionForce->FireImpulse();//setting impulse force or applying 
 
-	SetRootComponent(ImpactBlast);
-	TankAmmo->DestroyComponent();
+	SetRootComponent(ImpactBlast);//we need to set root impact blast cause it make crash while deleting the root
+	TankAmmo->DestroyComponent();//destroying tankammo after colliding 
 
-	FTimerHandle Timer;
+	FTimerHandle Timer;//destroying ammo projrctile from memory
 	GetWorld()->GetTimerManager().SetTimer(Timer, this, &AProjectile::OnTimerExpire, DelayDestory, false);
 	
+	//applying damgae howto for tank
 	UGameplayStatics::ApplyRadialDamage(
 		this,
-		ProjectileDamage,
+		ProjectileDamage,//send damage to tank class
 		GetActorLocation(),
 		ExplosionForce->Radius,
 		UDamageType::StaticClass(),//Returns a UClass object representing this class at runtime

@@ -27,7 +27,8 @@ void UTankAimingComponent::initialse(UTankBarrel* BarrelToSet, UTankTurret* Turr
 void UTankAimingComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	LastFireTime = FPlatformTime::Seconds();
+	//initailize only one time at begin
+	LastFireTime = FPlatformTime::Seconds();//AI la suru mai nahanos vanayra,only hit after after 3 seconds
 }
 
 // Called every frame
@@ -67,10 +68,9 @@ bool UTankAimingComponent::IsBarrelMoving()
 {
 	if (!ensure(Barrel)) { return false; }
 	auto BarrelForward = Barrel->GetForwardVector();
-	return !BarrelForward.Equals(AimDirection, 0.01);
+	return !BarrelForward.Equals(AimDirection, 0.01);//kati ko difference xa 0.01 wit aim direction that has normal value 1
 }
   
-
 void UTankAimingComponent::AimAt(FVector HitLocation)
 {
 	if (!ensure(Barrel)) { return; }
@@ -102,7 +102,7 @@ void  UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	if (!ensure(Barrel) || !ensure(Turret)) { return; }
 	//work-out Difference Between current Barrel Rotation and AimDirection
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
-	auto AimAsRotator = AimDirection.Rotation();
+	auto AimAsRotator = AimDirection.Rotation();//AimDirection is used here as initial value for barrel pointing
 	auto DeltaRotator = AimAsRotator - BarrelRotator;//(if Barrel move up then +ve ,if Barrel move up We get -ve)
 	Barrel->ElevateBarrel(DeltaRotator.Pitch);
 
@@ -118,7 +118,7 @@ void  UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	
 void UTankAimingComponent::Fire()
 {
-	if (FiringState== EFiringState::Aiming || FiringState == EFiringState::Locked) {
+	if (FiringState== EFiringState::Aiming || FiringState == EFiringState::Locked) {//locked means while not moving barel
 		if (!ensure(Barrel)) { return; }
 		if (!ensure(ProjectileBlueprint)) { return; }
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(

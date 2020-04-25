@@ -24,14 +24,14 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 
 void UTankMovementComponent::IntendMoveForward(float Throw)
 {
-	if (!ensure(LeftTrack && RightTrack)) { return; }
+	if (!ensure(LeftTrack && RightTrack)) { return; }//here we make two value as 1, 1 cause we need to move only forwrd
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(Throw);
 }
 
 void UTankMovementComponent::IntendTurnRight(float Throw)
 {
-	if (!ensure(LeftTrack && RightTrack)) { return; }
+	if (!ensure(LeftTrack && RightTrack)) { return; }///here 1,-1 cause for turn left right one wheel must move forward another backward
 		LeftTrack->SetThrottle(-Throw);
 		RightTrack->SetThrottle(Throw);
 }

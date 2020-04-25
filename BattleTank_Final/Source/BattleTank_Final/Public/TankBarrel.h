@@ -22,11 +22,12 @@ public:
 
 private:
 	UPROPERTY(EditDefaultsOnly, Category =" Setup")
-		float MaxDegreePerSecond = 15.0;
+		float MaxDegreePerSecond = 15.0;//how fast u want to move barrel
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-		float MaxElevationDegrees = 40.0;
+		float MaxElevationDegrees = 40.0;//katti degree samma barrel utawnay
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-		float MinElevationDegrees = 0.0;
+		float MinElevationDegrees = 0.0;//katti degree samma barrel jarnay down
+
 };

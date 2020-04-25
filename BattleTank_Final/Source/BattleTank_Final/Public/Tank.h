@@ -6,7 +6,7 @@
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTankDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTankDelegate);//yaha hamila awta matrai delegate garxaw but we can made multicast here
 
 UCLASS()
 class BATTLETANK_FINAL_API ATank : public APawn

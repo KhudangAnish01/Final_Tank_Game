@@ -20,15 +20,14 @@ void ATank::BeginPlay()
 
 float ATank::GetHealthPercent() const
 {
-	return (float)CurrentHealth / (float)StartingHealth;
+	return (float)CurrentHealth / (float)StartingHealth;//1 means full life length
 }
 
 float ATank::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser)
 {
 	//int32 DamagePoints = (int)DamageAmount;
-	int32 DamagePoints = FPlatformMath::RoundToInt(DamageAmount);//Rounds up nearest integer
-	int32 DamageToApply = FMath::Clamp(DamagePoints, 0, CurrentHealth);
-
+	int32 DamagePoints = FPlatformMath::RoundToInt(DamageAmount);//Rounds up nearest integer cause damagepoint is in float
+	int32 DamageToApply = FMath::Clamp(DamagePoints, 0, CurrentHealth);//if we want to make tank life decrese slowly then tweak this code
 	CurrentHealth -= DamageToApply;
 
 	if (CurrentHealth <= 0)
