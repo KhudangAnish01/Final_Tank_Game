@@ -23,6 +23,10 @@ void UTankAimingComponent::initialse(UTankBarrel* BarrelToSet, UTankTurret* Turr
 	Turret = TurretToSet;
 }
 
+void UTankAimingComponent::AcceptDamagePoint(float HitDamage) {
+	DamagePoint = HitDamage;
+}
+
 // Called when the game starts
 void UTankAimingComponent::BeginPlay()
 {
@@ -127,6 +131,7 @@ void UTankAimingComponent::Fire()
 			Barrel->GetSocketRotation(FName("Projectile"))
 			);
 		Projectile->LaunchProjectile(LaunchSpeed);
+		Projectile->GetProjectileDamage(DamagePoint);
 		LastFireTime = FPlatformTime::Seconds();
 		RoundsLeft--;
 	}

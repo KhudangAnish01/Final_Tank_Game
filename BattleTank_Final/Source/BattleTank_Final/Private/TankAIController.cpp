@@ -39,7 +39,8 @@ void ATankAIController::Tick(float DeltaTime)
 	if(!PlayerTank) { return; }
 		MoveToActor(PlayerTank, AcceptanceRadius);//moving ai tank
 		auto AimComponent = ControlledTank->FindComponentByClass<UTankAimingComponent>();
-		AimComponent->AimAt(PlayerTank->GetActorLocation());
+		AimComponent->AimAt(PlayerTank->GetActorLocation());//for locating point
+		AimComponent->AcceptDamagePoint(MyDamagePoint);//for danage point
 		if (AimComponent->GetFiringState() == EFiringState::Locked)
 		{
 			AimComponent->Fire();

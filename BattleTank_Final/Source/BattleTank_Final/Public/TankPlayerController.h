@@ -49,4 +49,6 @@ private:
 	bool GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const;
 
 	void SetPawn(APawn* InPawn);
+
+	float MyDamagePoint = 20;
 };

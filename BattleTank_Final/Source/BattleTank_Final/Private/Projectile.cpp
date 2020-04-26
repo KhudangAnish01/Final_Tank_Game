@@ -33,6 +33,10 @@ AProjectile::AProjectile()
 	ExplosionForce->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 }
 
+void AProjectile::GetProjectileDamage(float DamagePoint) {
+	ProjectileDanage = DamagePoint;
+}
+
 // Called when the game starts or when spawned
 void AProjectile::BeginPlay()
 {
@@ -64,18 +68,10 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 	FTimerHandle Timer;//destroying ammo projrctile from memory
 	GetWorld()->GetTimerManager().SetTimer(Timer, this, &AProjectile::OnTimerExpire, DelayDestory, false);
 	
-	auto PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
-	if (PlayerTank) {
-		ProjectileDamage =10 ;
-	}
-	else {
-		ProjectileDamage = 20;
-	}
-
 	//applying damgae howto for tank
 	UGameplayStatics::ApplyRadialDamage(
 		this,
-		ProjectileDamage,//send damage to tank class
+		ProjectileDanage,//send damage to tank class
 		GetActorLocation(),
 		ExplosionForce->Radius,
 		UDamageType::StaticClass(),//Returns a UClass object representing this class at runtime

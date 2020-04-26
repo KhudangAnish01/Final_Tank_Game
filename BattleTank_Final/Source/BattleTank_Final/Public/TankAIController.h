@@ -14,6 +14,9 @@ class BATTLETANK_FINAL_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
 
+private:
+	float MyDamagePoint = 10;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -30,5 +33,7 @@ public:
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+
 };
 

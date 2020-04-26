@@ -18,6 +18,11 @@ public:
 	AProjectile();
 	void LaunchProjectile(float speed);
 
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+		float ProjectileDanage;
+		
+	void GetProjectileDamage(float DamagePoint);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -33,9 +38,6 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	float DelayDestory=10.f;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-	float ProjectileDamage;
 
 	void OnTimerExpire();
 

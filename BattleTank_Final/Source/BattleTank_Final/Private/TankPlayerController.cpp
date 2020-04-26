@@ -30,6 +30,7 @@ void ATankPlayerController::AimTowardsCrossHair()
 {
 	if (!GetPawn()) { return; } // e.g. if not possessing
 	auto AimComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	AimComponent->AcceptDamagePoint(MyDamagePoint);//for damage point
 	if (!ensure(AimComponent)) { return; }
 
 	FVector HitLocation;//out parameter

@@ -39,6 +39,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Firing")
 		int GetRoundsLeft() const;
 
+	void AcceptDamagePoint(float HitPoint);
+
+	float DamagePoint;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;

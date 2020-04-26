@@ -54,7 +54,6 @@ void ASprungWheel::Tick(float DeltaTime)
 
 void ASprungWheel::AddDrivingForce(float ForceForDrive) {
 	TotalForceForDrive += ForceForDrive;
-	UE_LOG(LogTemp, Warning, TEXT("Value:%f"), TotalForceForDrive);
 }
 
 void ASprungWheel::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) {
