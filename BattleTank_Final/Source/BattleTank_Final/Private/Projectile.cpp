@@ -1,5 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "BattleTank_FinalGameModeBase.h"
 #include "GameFramework/DamageType.h"
 #include"Kismet/GameplayStatics.h"
 #include "TimerManager.h"
@@ -63,6 +64,14 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 	FTimerHandle Timer;//destroying ammo projrctile from memory
 	GetWorld()->GetTimerManager().SetTimer(Timer, this, &AProjectile::OnTimerExpire, DelayDestory, false);
 	
+	auto PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
+	if (PlayerTank) {
+		ProjectileDamage =10 ;
+	}
+	else {
+		ProjectileDamage = 20;
+	}
+
 	//applying damgae howto for tank
 	UGameplayStatics::ApplyRadialDamage(
 		this,
