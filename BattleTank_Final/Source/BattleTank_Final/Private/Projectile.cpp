@@ -34,7 +34,7 @@ AProjectile::AProjectile()
 }
 
 void AProjectile::GetProjectileDamage(float DamagePoint) {
-	ProjectileDanage = DamagePoint;
+	ProjectileDamage = DamagePoint;
 }
 
 // Called when the game starts or when spawned
@@ -71,7 +71,7 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 	//applying damgae howto for tank
 	UGameplayStatics::ApplyRadialDamage(
 		this,
-		ProjectileDanage,//send damage to tank class
+		ProjectileDamage,//send damage to tank class
 		GetActorLocation(),
 		ExplosionForce->Radius,
 		UDamageType::StaticClass(),//Returns a UClass object representing this class at runtime

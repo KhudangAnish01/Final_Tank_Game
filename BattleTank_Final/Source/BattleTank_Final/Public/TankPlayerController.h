@@ -50,5 +50,5 @@ private:
 
 	void SetPawn(APawn* InPawn);
 
-	float MyDamagePoint = 20;
+	float MyDamagePoint = 20.0;
 };

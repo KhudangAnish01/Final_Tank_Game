@@ -34,6 +34,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Firing")
 		void Fire();
 
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+		void FireBullet();
+
 	EFiringState GetFiringState() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Firing")
@@ -52,6 +55,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = " Setup")
 		TSubclassOf<AProjectile> ProjectileBlueprint;
+
+	UPROPERTY(EditDefaultsOnly, Category = " Setup")
+		TSubclassOf<AProjectile> ProjectileBlueprint1;
 	  
 public:	
 	// Called every frame

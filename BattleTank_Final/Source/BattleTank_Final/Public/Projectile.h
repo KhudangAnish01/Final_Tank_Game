@@ -18,14 +18,14 @@ public:
 	AProjectile();
 	void LaunchProjectile(float speed);
 
-	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-		float ProjectileDanage;
-		
 	void GetProjectileDamage(float DamagePoint);
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	UPROPERTY(EditAnyWhere, Category = "Setup")//no advantage use of uproperty
+		float ProjectileDamage = 0.0;
 
 public:	
 	// Called every frame

@@ -137,3 +137,15 @@ void UTankAimingComponent::Fire()
 	}
 }
 
+void UTankAimingComponent::FireBullet() {
+	if (!ensure(Barrel)) { return; }
+	if (!ensure(ProjectileBlueprint1)) { return; }
+	auto Projectile = GetWorld()->SpawnActor<AProjectile>(
+		ProjectileBlueprint1,
+		Barrel->GetSocketLocation(FName("Projectile1")),
+		Barrel->GetSocketRotation(FName("Projectile1"))
+		);
+	Projectile->LaunchProjectile(LaunchSpeed);
+	Projectile->GetProjectileDamage(1.0);
+}
+
