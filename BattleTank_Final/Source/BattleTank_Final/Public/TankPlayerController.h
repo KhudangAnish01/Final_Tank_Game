@@ -39,7 +39,7 @@ private:
 	//Corss Hair Position
 	UPROPERTY(EditDefaultsOnly)
 		float CrossHairXPosition = 0.5;
-		float CrossHairYPosition = 0.333;
+		float CrossHairYPosition = 0.45;
 
 	UPROPERTY(EditDefaultsOnly)
 		float LineTraceRange = 1000000;
