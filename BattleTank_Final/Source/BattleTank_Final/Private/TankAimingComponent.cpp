@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "TankTurret.h"
 #include "TankBarrel.h"
+#include "TimerManager.h"
 #include"Kismet/GameplayStatics.h"
 #include"Components/StaticMeshComponent.h"
 #include "Engine/World.h"
@@ -40,7 +41,8 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if (RoundsLeft <= 0)
+	//for TankBullet
+	if (TankRoundsLeft == 0 && CurrentGunBullet==0)
 	{
 		FiringState = EFiringState::OutOfAmmo;
 	}
@@ -56,11 +58,23 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	{
 		FiringState = EFiringState::Locked;
 	}
+
+	//For MahineGun
 }
 
-int UTankAimingComponent::GetRoundsLeft() const
+int UTankAimingComponent::GetTankBullet() const
 {
-	return RoundsLeft;
+	return TankRoundsLeft;
+}
+
+int UTankAimingComponent::GetMaxGunBullet() const
+{
+	return MaxGunBullett;
+}
+
+int UTankAimingComponent::GetCurrentGunBullet() const
+{
+	return CurrentGunBullet;
 }
 
 EFiringState UTankAimingComponent::GetFiringState() const
@@ -125,27 +139,62 @@ void UTankAimingComponent::Fire()
 	if (FiringState== EFiringState::Aiming || FiringState == EFiringState::Locked) {//locked means while not moving barel
 		if (!ensure(Barrel)) { return; }
 		if (!ensure(ProjectileBlueprint)) { return; }
-		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
-			ProjectileBlueprint,
-			Barrel->GetSocketLocation(FName("Projectile")),
-			Barrel->GetSocketRotation(FName("Projectile"))
-			);
-		Projectile->LaunchProjectile(LaunchSpeed);
-		Projectile->GetProjectileDamage(DamagePoint);
+		if (TankRoundsLeft != 0) {
+			auto Projectile = GetWorld()->SpawnActor<AProjectile>(
+				ProjectileBlueprint,
+				Barrel->GetSocketLocation(FName("Projectile")),
+				Barrel->GetSocketRotation(FName("Projectile"))
+				);
+			Projectile->LaunchProjectile(LaunchSpeed);
+			Projectile->GetProjectileDamage(DamagePoint);
+			TankRoundsLeft--;
+		}
 		LastFireTime = FPlatformTime::Seconds();
-		RoundsLeft--;
 	}
 }
 
 void UTankAimingComponent::FireBullet() {
-	if (!ensure(Barrel)) { return; }
-	if (!ensure(ProjectileBlueprint1)) { return; }
-	auto Projectile = GetWorld()->SpawnActor<AProjectile>(
-		ProjectileBlueprint1,
-		Barrel->GetSocketLocation(FName("Projectile1")),
-		Barrel->GetSocketRotation(FName("Projectile1"))
-		);
-	Projectile->LaunchProjectile(LaunchSpeed);
-	Projectile->GetProjectileDamage(1.0);
+	if (FiringState == EFiringState::Aiming || FiringState == EFiringState::Locked) {
+		if (!ensure(Barrel)) { return; }
+		if (!ensure(ProjectileBlueprint1)) { return; }
+		if (CurrentGunBullet != 0) {
+			auto Projectile = GetWorld()->SpawnActor<AProjectile>(
+				ProjectileBlueprint1,
+				Barrel->GetSocketLocation(FName("Projectile1")),
+				Barrel->GetSocketRotation(FName("Projectile1"))
+				);
+			Projectile->LaunchProjectile(LaunchSpeed);
+			Projectile->GetProjectileDamage(1.0);
+			CurrentGunBullet--;
+		}
+	}
 }
 
+void UTankAimingComponent::CalledFunctionAfterDelaying() {
+}
+
+void UTankAimingComponent::Reloading() {
+
+	if (CurrentGunBullet == MagazineSize) {//1
+	}
+
+	else {//2
+		if (MaxGunBullett > MagazineSize) {//2.1
+					MaxGunBullett += CurrentGunBullet;
+					CurrentGunBullet = MagazineSize;
+					MaxGunBullett = MaxGunBullett - MagazineSize;
+			}
+
+		else {//2.2
+				MaxGunBullett += CurrentGunBullet;
+					if (MaxGunBullett > MagazineSize) {//2.2.1
+						CurrentGunBullet = MagazineSize;
+						MaxGunBullett = MaxGunBullett - MagazineSize;
+					}
+					else {//2.2.2
+						CurrentGunBullet = MaxGunBullett;
+						MaxGunBullett = 0;
+					}
+				}
+		}
+}

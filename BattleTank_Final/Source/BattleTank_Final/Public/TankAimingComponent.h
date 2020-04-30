@@ -40,7 +40,13 @@ public:
 	EFiringState GetFiringState() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Firing")
-		int GetRoundsLeft() const;
+		int GetTankBullet() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+		int GetMaxGunBullet() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+		int GetCurrentGunBullet() const;
 
 	void AcceptDamagePoint(float HitPoint);
 
@@ -54,14 +60,20 @@ protected:
 		EFiringState FiringState;
 
 	UPROPERTY(EditDefaultsOnly, Category = " Setup")
-		TSubclassOf<AProjectile> ProjectileBlueprint;
+		TSubclassOf<AProjectile> ProjectileBlueprint;//Tank Ammo
 
-	UPROPERTY(EditDefaultsOnly, Category = " Setup")
+	UPROPERTY(EditDefaultsOnly, Category = " Setup")//Gun Ammo
 		TSubclassOf<AProjectile> ProjectileBlueprint1;
+
+	UFUNCTION(BlueprintCallable, Category = "Reload")
+	void Reloading();
 	  
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	UFUNCTION()
+	void CalledFunctionAfterDelaying();
 
 private:
 	// Sets default values for this component's properties
@@ -75,10 +87,19 @@ private:
 		float LaunchSpeed = 3000;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-		float ReloadTimeInSecond = 3;
+		float ReloadTimeInSecond = 3;//holds fire for 3 second
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-		int RoundsLeft = 3;//holds fire for 3 second
+		int TankRoundsLeft = 3;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+		int MaxGunBullett = 120;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+		int MagazineSize =30 ;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+		int CurrentGunBullet = 30;
 
 	UTankBarrel* Barrel = nullptr;
 
@@ -87,4 +108,6 @@ private:
 	double LastFireTime = 0;
 
 	FVector AimDirection;
+
+	FTimerHandle Delaying;//Work as Delay in Blueprint
 };
