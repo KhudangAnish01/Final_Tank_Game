@@ -67,7 +67,7 @@ protected:
 
 	UFUNCTION(BlueprintCallable, Category = "Reload")
 	void Reloading();
-	  
+
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
@@ -110,4 +110,5 @@ private:
 	FVector AimDirection;
 
 	FTimerHandle Delaying;//Work as Delay in Blueprint
+
 };

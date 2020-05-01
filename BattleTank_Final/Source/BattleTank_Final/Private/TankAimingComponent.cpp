@@ -58,8 +58,6 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	{
 		FiringState = EFiringState::Locked;
 	}
-
-	//For MahineGun
 }
 
 int UTankAimingComponent::GetTankBullet() const
@@ -174,27 +172,26 @@ void UTankAimingComponent::CalledFunctionAfterDelaying() {
 }
 
 void UTankAimingComponent::Reloading() {
-
-	if (CurrentGunBullet == MagazineSize) {//1
-	}
-
-	else {//2
-		if (MaxGunBullett > MagazineSize) {//2.1
+			if (CurrentGunBullet == MagazineSize) {//1
+			}
+			else {//2
+				if (MaxGunBullett > MagazineSize) {//2.1
 					MaxGunBullett += CurrentGunBullet;
 					CurrentGunBullet = MagazineSize;
 					MaxGunBullett = MaxGunBullett - MagazineSize;
-			}
-
-		else {//2.2
-				MaxGunBullett += CurrentGunBullet;
+				}
+				else {//2.2
+					MaxGunBullett += CurrentGunBullet;
 					if (MaxGunBullett > MagazineSize) {//2.2.1
 						CurrentGunBullet = MagazineSize;
 						MaxGunBullett = MaxGunBullett - MagazineSize;
 					}
+
 					else {//2.2.2
 						CurrentGunBullet = MaxGunBullett;
 						MaxGunBullett = 0;
 					}
 				}
-		}
+			}
 }
+
