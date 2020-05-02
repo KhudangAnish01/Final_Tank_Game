@@ -1,4 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
+#include "Tank.h"
 #include "TankAimingComponent.h"
 #include "BattleTank_FinalGameModeBase.h"
 #include "Components/SphereComponent.h"
@@ -24,13 +25,13 @@ void AAmmo::BeginPlay()
 	Super::BeginPlay();
 	ammoname=Create->GetOwner()->GetName();
 	ammoname.Split("_", &FirstName, &lastname);
+	Sphere1->OnComponentBeginOverlap.AddDynamic(this, &AAmmo::GetAmmo);
 }
 
 // Called every frame
 void AAmmo::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	Sphere1->OnComponentBeginOverlap.AddDynamic(this, &AAmmo::GetAmmo);
 }
 
 void AAmmo::GetAmmo(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -38,22 +39,26 @@ void AAmmo::GetAmmo(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPr
 	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr)) {
 
 		auto player = GetWorld()->GetFirstPlayerController()->GetPawn();
-
 		if (OtherActor == player)
 		{
 			Destroy();
 
 			auto AmmoGrabber = OtherActor->FindComponentByClass<UTankAimingComponent>();
 			if (FirstName == "TankAmmo") {
-				if (!ensure(AmmoGrabber)) { return; }
-				UE_LOG(LogTemp, Warning, TEXT("TankAmmo"));
+				if ((!AmmoGrabber)) { return; }
 				AmmoGrabber->GetGrabbedTankAmmo(10);
 			}
 
 			if (FirstName == "GunAmmo") {
-				if (!ensure(AmmoGrabber)) { return; }
-				UE_LOG(LogTemp, Warning, TEXT("GunAmmo"));
+				if ((!AmmoGrabber)) { return; }
 				AmmoGrabber->GetGrabbedGunAmmo(60);
+			
+			}
+
+			if (FirstName == "MedicalKit") {
+				auto HealthGrabber = Cast<ATank>(player);
+				if (!HealthGrabber) { return; }
+				HealthGrabber->GetMedicalKit(20);
 			}
 		}
 		}

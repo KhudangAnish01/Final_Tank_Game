@@ -22,6 +22,8 @@ public:
 
 	FTankDelegate OnDead;
 
+	void GetMedicalKit(int health);
+
 private:
 	// Sets default values for this pawn's properties
 	ATank();

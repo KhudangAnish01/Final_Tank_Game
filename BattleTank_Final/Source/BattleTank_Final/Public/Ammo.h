@@ -37,5 +37,6 @@ private:
 	FString FirstName;
 	FString lastname;
 
+	//class ATank* HealthGrabber;
 	//class UTankAimingComponent* AmmoGrabber=nullptr;
 };

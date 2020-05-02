@@ -115,7 +115,7 @@ private:
 
 	FVector AimDirection;//Drection that define where is normal unit arrow is forwarding;
 
-	float ReloadTimeGun = 1;
+	float ReloadTimeGun = 2;
 
 	void Delay();
 
