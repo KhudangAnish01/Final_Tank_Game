@@ -1,4 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
+#include "TimerManager.h"
 #include "TankTurret.h"
 #include "TankBarrel.h"
 #include "TimerManager.h"
@@ -46,17 +47,19 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	{
 		FiringState = EFiringState::OutOfAmmo;
 	}
-	else if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSecond)
+	else if ((FPlatformTime::Seconds() - LastFireTime)< ReloadTimeInSecond)
 	{
 		FiringState = EFiringState::Reloading;
 	}
-	else if (IsBarrelMoving())
+	else if( (IsBarrelMoving())&&(IsReloading))
 	{
 		FiringState = EFiringState::Aiming;
 	}
 	else
 	{
-		FiringState = EFiringState::Locked;
+		if (IsReloading) {
+			FiringState = EFiringState::Locked;
+		}
 	}
 }
 
@@ -168,30 +171,48 @@ void UTankAimingComponent::FireBullet() {
 	}
 }
 
-void UTankAimingComponent::CalledFunctionAfterDelaying() {
-}
-
 void UTankAimingComponent::Reloading() {
-			if (CurrentGunBullet == MagazineSize) {//1
-			}
-			else {//2
-				if (MaxGunBullett > MagazineSize) {//2.1
-					MaxGunBullett += CurrentGunBullet;
-					CurrentGunBullet = MagazineSize;
-					MaxGunBullett = MaxGunBullett - MagazineSize;
-				}
-				else {//2.2
-					MaxGunBullett += CurrentGunBullet;
-					if (MaxGunBullett > MagazineSize) {//2.2.1
-						CurrentGunBullet = MagazineSize;
-						MaxGunBullett = MaxGunBullett - MagazineSize;
-					}
-
-					else {//2.2.2
-						CurrentGunBullet = MaxGunBullett;
-						MaxGunBullett = 0;
-					}
-				}
-			}
+	IsReloading = false;
+	FiringState = EFiringState::Reloading;
+		FTimerHandle Delaying;//ReloadingBullet
+		GetWorld()->GetTimerManager().SetTimer(Delaying, this, &UTankAimingComponent::Delay, ReloadTimeGun, false);
 }
 
+void UTankAimingComponent::GetGrabbedTankAmmo(int GrabTankAmmo) {
+	TankRoundsLeft += GrabTankAmmo;
+	if (TankRoundsLeft > 30) {
+		TankRoundsLeft = 30;
+	}
+}
+
+void UTankAimingComponent::GetGrabbedGunAmmo(int GrabGunAmmo) {
+	MaxGunBullett += GrabGunAmmo;
+	if (MaxGunBullett > 120) {
+		MaxGunBullett = 120;
+	}
+}
+
+void UTankAimingComponent::Delay() {
+	IsReloading = true;
+	if (CurrentGunBullet == MagazineSize) {//1
+	}
+	else {//2
+		if (MaxGunBullett > MagazineSize) {//2.1
+			MaxGunBullett += CurrentGunBullet;
+			CurrentGunBullet = MagazineSize;
+			MaxGunBullett = MaxGunBullett - MagazineSize;
+		}
+		else {//2.2
+			MaxGunBullett += CurrentGunBullet;
+			if (MaxGunBullett > MagazineSize) {//2.2.1
+				CurrentGunBullet = MagazineSize;
+				MaxGunBullett = MaxGunBullett - MagazineSize;
+			}
+
+			else {//2.2.2
+				CurrentGunBullet = MaxGunBullett;
+				MaxGunBullett = 0;
+			}
+		}
+	}
+}

@@ -67,7 +67,6 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, U
 
 	FTimerHandle Timer;//destroying ammo projrctile from memory
 	GetWorld()->GetTimerManager().SetTimer(Timer, this, &AProjectile::OnTimerExpire, DelayDestory, false);
-	
 	//applying damgae howto for tank
 	UGameplayStatics::ApplyRadialDamage(
 		this,
