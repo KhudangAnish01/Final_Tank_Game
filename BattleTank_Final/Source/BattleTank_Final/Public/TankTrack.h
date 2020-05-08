@@ -22,10 +22,15 @@ public:
     UPROPERTY(EditDefaultsOnly)
         float TrackMaxDrivingForce = 50000000;
 
+    void DestroySpawnPoint();
+
+protected:
+    TArray<USceneComponent*>Children;
+
 private:
     UTankTrack();
 
     void DriveTrack(float CurrentThrottle);
 
-    TArray<class ASprungWheel*> GetWheels() const;
+    TArray<class ASprungWheel*> GetWheels();
 }; 

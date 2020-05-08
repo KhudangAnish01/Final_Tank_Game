@@ -33,3 +33,8 @@ void USpawnPoint::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 	// ...
 }
 
+void USpawnPoint::DestroyedSpawnPoint() {
+	if (!SpawnActor) { return; }
+	SpawnActor->Destroy();
+}
+

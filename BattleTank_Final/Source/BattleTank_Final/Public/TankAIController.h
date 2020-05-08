@@ -28,11 +28,21 @@ public:
 
 	void SetPawn(APawn* InPawn);
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable, Category = "Death")
 	void OnPossedTankDeath();
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	//Getting Reference Of Aiming Component 
+	class UTankAimingComponent* AimComponent; 
+
+	FString EnemyTankName;
+
+	FString FirstName;
+
+	FString lastname;
+
+	int32 count = 15;
 };
 

@@ -35,3 +35,9 @@ void UTankMovementComponent::IntendTurnRight(float Throw)
 		LeftTrack->SetThrottle(-Throw);
 		RightTrack->SetThrottle(Throw);
 }
+
+void UTankMovementComponent::TrackReference() {
+	if (!ensure(LeftTrack && RightTrack)) { return; }
+	LeftTrack->DestroySpawnPoint();
+	RightTrack->DestroySpawnPoint();
+}

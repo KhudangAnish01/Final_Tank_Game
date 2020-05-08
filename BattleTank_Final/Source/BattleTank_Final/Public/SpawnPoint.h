@@ -21,6 +21,8 @@ public:
 
 	AActor* GetSpawnActor()	const {return SpawnActor;}
 
+	void DestroyedSpawnPoint();
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;

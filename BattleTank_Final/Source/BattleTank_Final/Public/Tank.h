@@ -17,7 +17,7 @@ public:
 
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
-	UFUNCTION(BlueprintPure,Category="Health")
+	UFUNCTION(BlueprintCallable,Category="Health")
 	float GetHealthPercent() const;
 
 	FTankDelegate OnDead;
@@ -34,5 +34,6 @@ private:
 	int32 StartingHealth = 100;
 
 	UPROPERTY(VisibleAnyWhere, Category = "Health")//remains constant don't change
-	int32 CurrentHealth;
+		int32 CurrentHealth;
+		
 };
