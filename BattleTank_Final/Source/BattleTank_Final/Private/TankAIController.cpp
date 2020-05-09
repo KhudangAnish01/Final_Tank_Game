@@ -22,13 +22,16 @@ void ATankAIController::SetPawn(APawn* InPawn)
 void ATankAIController::OnPossedTankDeath()
 {
 	auto MovementRef = GetPawn()->FindComponentByClass<UTankMovementComponent>();//for destroying spawnpoint child of lefttrack
-	MovementRef->TrackReference();
-	if (!MovementRef) { return; }
+	if (MovementRef) { 
+		if (!MovementRef) { return; }
+		MovementRef->TrackReference(); }
 	AimComponent->GetOwner()->Destroy();
 }
+
 void ATankAIController ::BeginPlay()
 {
 	Super::BeginPlay();
+	LastFireTime = FPlatformTime::Seconds();
 	AimComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	EnemyTankName = AimComponent->GetOwner()->GetName();
 	EnemyTankName.Split("_", &FirstName, &lastname);
@@ -52,7 +55,11 @@ void ATankAIController::Tick(float DeltaTime)
 				if (count > 0) {
 					AimComponent->FireBullet();
 					UE_LOG(LogTemp, Warning, TEXT("%d"), count);
+					LastFireTime = FPlatformTime::Seconds();
 					count--;
+				}
+				else if(((FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSecond)) {
+					count = 25;
 				}
 			}
 			else {

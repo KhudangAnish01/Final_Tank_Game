@@ -43,6 +43,10 @@ public:
 
 	FString lastname;
 
-	int32 count = 15;
+	int32 count = 25;
+
+	float ReloadTimeInSecond = 3;
+
+	double LastFireTime = 0;
 };
 
