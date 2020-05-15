@@ -24,6 +24,8 @@ public:
 
 	void GetMedicalKit(int health);
 
+	void ReSpawn();
+
 private:
 	// Sets default values for this pawn's properties
 	ATank();

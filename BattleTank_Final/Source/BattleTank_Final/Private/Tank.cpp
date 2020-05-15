@@ -1,8 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "Engine/World.h"
 #include "Projectile.h"
-#include "TankBarrel.h"
-#include "TankTurret.h"
 #include "Tank.h"
 
 // Sets default values
@@ -42,6 +40,10 @@ void  ATank::GetMedicalKit(int health) {
 	if (CurrentHealth > 100) {
 		CurrentHealth = 100;
 	}
+}
+
+void  ATank::ReSpawn() {
+	CurrentHealth = 100;
 }
 
 

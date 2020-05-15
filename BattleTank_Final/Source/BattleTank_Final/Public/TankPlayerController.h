@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "TimerManager.h"
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "TankPlayerController.generated.h"
@@ -22,12 +23,20 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
 		void FoundAimingComponent(UTankAimingComponent* AimRef);
 
+	class UTankAimingComponent* AimComponent;
+
+	class UPrimitiveComponent* TankRoot;
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION()
 	void PossessedDeath();
+
+	void GoToCheckPoint();
+
+	APlayerController* Player;
 
 private:
 	//Tank Fire if Aim is Ready

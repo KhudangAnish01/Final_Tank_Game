@@ -1,5 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "Components/PrimitiveComponent.h"
+#include "SaveProgress.h"
+#include"Kismet/GameplayStatics.h"
 #include "Engine/World.h"
 #include "TankPlayerController.h"
 #include"TankAimingComponent.h"
@@ -9,7 +12,7 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 	if (!GetPawn()) { return; } // e.g. if not possessing
-	auto AimComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	 AimComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimComponent)) { return; }
 		FoundAimingComponent(AimComponent);
 }
@@ -23,13 +26,27 @@ void ATankPlayerController::Tick(float DeltaTime)
 void ATankPlayerController::PossessedDeath()
 {
 	if (!GetPawn()) { return; } // e.g. if not possessing
-	StartSpectatingOnly();
+	Player = GetWorld()->GetFirstPlayerController();
+	GetPawn()->DisableInput(Player);
+
+	auto SaveProgressInstance = Cast<USaveProgress>(UGameplayStatics::LoadGameFromSlot("CheckPoint", 0));
+	if (!SaveProgressInstance) { return; }
+	//Set Player Position
+	FHitResult Hit;
+	Player->GetPawn()->SetActorLocation(SaveProgressInstance->PlayerPosition, false, &Hit, ETeleportType::TeleportPhysics);
+	TankRoot = Cast<UPrimitiveComponent>(AimComponent->GetOwner()->GetRootComponent());
+	if (!TankRoot) { return; }
+	UE_LOG(LogTemp, Warning, TEXT("TankRoot"));
+	TankRoot->SetSimulatePhysics(false);
+	GetPawn()->EnableInput(Player);
+
+	FTimerHandle Timer;//Respawn Time;
+	GetWorld()->GetTimerManager().SetTimer(Timer, this, &ATankPlayerController::GoToCheckPoint, 3, false);
 }
 
 void ATankPlayerController::AimTowardsCrossHair()
 {
 	if (!GetPawn()) { return; } // e.g. if not possessing
-	auto AimComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	AimComponent->AcceptDamagePoint(MyDamagePoint);//for damage point
 	if (!ensure(AimComponent)) { return; }
 
@@ -107,3 +124,8 @@ void ATankPlayerController::SetPawn(APawn* InPawn)
 	}
 }
 
+void ATankPlayerController::GoToCheckPoint() {
+	//Load Saved Game from slot
+	Cast<ATank>(Player->GetPawn())->ReSpawn();
+	TankRoot->SetSimulatePhysics(true);
+}

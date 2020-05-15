@@ -25,7 +25,7 @@ public:
     void DestroySpawnPoint();
 
 protected:
-    TArray<USceneComponent*>Children;
+    TArray<USceneComponent*>Children;  
 
 private:
     UTankTrack();

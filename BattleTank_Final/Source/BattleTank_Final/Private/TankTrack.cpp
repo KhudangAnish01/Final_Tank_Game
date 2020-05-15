@@ -1,4 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings."
+
+#include "Components/PrimitiveComponent.h"
 #include "SpawnPoint.h"
 #include "SprungWheel.h"
 #include "TankTrack.h"
@@ -29,7 +31,7 @@ void UTankTrack::DriveTrack(float CurrentThrottle)
 }
 
 TArray<ASprungWheel*> UTankTrack::GetWheels(){
-	TArray <ASprungWheel*> resultarray;
+	TArray <class ASprungWheel*> resultarray;
 	GetChildrenComponents(true, Children);//savai child ayo of TankTrack
 	for (USceneComponent* Child : Children) {  
 		auto SpawnChildPoint = Cast<USpawnPoint>(Child);//uscenecomponent to Uspawnpoint
@@ -47,7 +49,10 @@ void UTankTrack::DestroySpawnPoint(){
 	GetChildrenComponents(true, Children);
 	for (USceneComponent* Child : Children) {
 		auto SpawnChildPoint = Cast<USpawnPoint>(Child);
-		if (!SpawnChildPoint)continue;
+		if (!SpawnChildPoint) { continue; }
 		SpawnChildPoint->DestroyedSpawnPoint();
 	}
 }
+
+
+
