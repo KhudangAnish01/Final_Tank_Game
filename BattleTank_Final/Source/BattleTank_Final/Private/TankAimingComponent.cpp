@@ -216,4 +216,10 @@ void UTankAimingComponent::Delay() {
 	}
 }
 
+void  UTankAimingComponent::RetrievedSavedAmmo(int TankAmmo, int GunAmmo, int MaxGunAmmo) {
+	CurrentGunBullet = GunAmmo;
+	TankRoundsLeft = TankAmmo;
+	MaxGunBullett = MaxGunAmmo;
+}
+
 //114 lines of code

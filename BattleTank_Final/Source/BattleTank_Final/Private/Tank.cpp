@@ -13,7 +13,6 @@ ATank::ATank()
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
-	CurrentHealth = StartingHealth;//because it call after BP_Constructor which makes logical error in gameplay health
 }
 
 float ATank::GetHealthPercent() const
@@ -42,8 +41,12 @@ void  ATank::GetMedicalKit(int health) {
 	}
 }
 
-void  ATank::ReSpawn() {
-	CurrentHealth = 100;
+void  ATank::ReSpawn(int RemainLife) {
+	CurrentHealth = RemainLife;
+}
+
+int  ATank::ReturnCurrentHealth() {
+	return CurrentHealth;
 }
 
 

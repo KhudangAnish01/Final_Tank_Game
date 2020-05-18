@@ -24,7 +24,12 @@ public:
 
 	void GetMedicalKit(int health);
 
-	void ReSpawn();
+	void ReSpawn(int RemainLife);
+
+	int ReturnCurrentHealth();
+
+	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite, Category = "Health")//remains constant don't change
+		int32 CurrentHealth=100;
 
 private:
 	// Sets default values for this pawn's properties
@@ -33,9 +38,5 @@ private:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")//use manipulate
-	int32 StartingHealth = 100;
-
-	UPROPERTY(VisibleAnyWhere, Category = "Health")//remains constant don't change
-		int32 CurrentHealth;
-		
+	int32 StartingHealth = 100;	
 };

@@ -48,5 +48,13 @@ public:
 	float ReloadTimeInSecond = 3;
 
 	double LastFireTime = 0;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Firing")
+	bool IsEnemyDead=false;
+
+	void DestroyEnemy();
+
+	UFUNCTION(BlueprintCallable)
+		void Update();
 };
 

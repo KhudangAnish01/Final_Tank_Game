@@ -29,7 +29,7 @@ void ATankPlayerController::PossessedDeath()
 	Player = GetWorld()->GetFirstPlayerController();
 	GetPawn()->DisableInput(Player);
 
-	auto SaveProgressInstance = Cast<USaveProgress>(UGameplayStatics::LoadGameFromSlot("CheckPoint", 0));
+	SaveProgressInstance = Cast<USaveProgress>(UGameplayStatics::LoadGameFromSlot("CheckPoint", 0));
 	if (!SaveProgressInstance) { return; }
 	//Set Player Position
 	FHitResult Hit;
@@ -126,6 +126,7 @@ void ATankPlayerController::SetPawn(APawn* InPawn)
 
 void ATankPlayerController::GoToCheckPoint() {
 	//Load Saved Game from slot
-	Cast<ATank>(Player->GetPawn())->ReSpawn();
+	AimComponent->RetrievedSavedAmmo(SaveProgressInstance->TankAmmo, SaveProgressInstance->MachinegunAmmo, SaveProgressInstance->MaxMachinegunAmmo);
+	Cast<ATank>(Player->GetPawn())->ReSpawn(SaveProgressInstance->PlayerLife);
 	TankRoot->SetSimulatePhysics(true);
 }

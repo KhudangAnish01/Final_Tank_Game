@@ -22,5 +22,17 @@ public:
 		FVector PlayerPosition;
 
 	UPROPERTY(BlueprintReadOnly, Category = "SavingProgress")
-		FRotator PlayerRotation;
+		int PlayerLife;
+
+	UPROPERTY(BlueprintReadOnly, Category = "SavingProgress")
+		int MachinegunAmmo;
+
+	UPROPERTY(BlueprintReadOnly, Category = "SavingProgress")
+		int MaxMachinegunAmmo;
+
+	UPROPERTY(BlueprintReadOnly, Category = "SavingProgress")
+		int TankAmmo;
+
+	UPROPERTY(BlueprintReadWrite, Category = "SavingProgress")
+		TMap<class ATankAIController*, bool>LevelSavedData;
 };

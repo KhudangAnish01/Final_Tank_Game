@@ -1,4 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
+#include "MyGameStateBase.h"
 #include "TankMovementComponent.h"
 #include "TimerManager.h"
 #include "TankAimingComponent.h"
@@ -6,6 +7,15 @@
 #include "Engine/World.h"
 #include "Tank.h"
 #include "TankAIController.h"
+
+void ATankAIController::BeginPlay()
+{
+	Super::BeginPlay();
+	LastFireTime = FPlatformTime::Seconds();
+	AimComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	EnemyTankName = AimComponent->GetOwner()->GetName();
+	EnemyTankName.Split("_", &FirstName, &lastname);
+}
 
 void ATankAIController::SetPawn(APawn* InPawn)
 {
@@ -21,20 +31,10 @@ void ATankAIController::SetPawn(APawn* InPawn)
 
 void ATankAIController::OnPossedTankDeath()
 {
-	auto MovementRef = GetPawn()->FindComponentByClass<UTankMovementComponent>();//for destroying spawnpoint child of lefttrack
-	if (MovementRef) { 
-		if (!MovementRef) { return; }
-		MovementRef->TrackReference(); }
-	AimComponent->GetOwner()->Destroy();
-}
-
-void ATankAIController ::BeginPlay()
-{
-	Super::BeginPlay();
-	LastFireTime = FPlatformTime::Seconds();
-	AimComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
-	EnemyTankName = AimComponent->GetOwner()->GetName();
-	EnemyTankName.Split("_", &FirstName, &lastname);
+	IsEnemyDead = true;
+	AMyGameStateBase* const MyGameState = GetWorld() != NULL ? GetWorld()->GetGameState<AMyGameStateBase>() : NULL;
+	MyGameState->EnemyDestroyed.Broadcast(this);
+	DestroyEnemy();
 }
 
 // Called every frame
@@ -66,4 +66,19 @@ void ATankAIController::Tick(float DeltaTime)
 				AimComponent->Fire();
 			}
 		}
+}
+
+void ATankAIController::DestroyEnemy() {
+	auto MovementRef = GetPawn()->FindComponentByClass<UTankMovementComponent>();//for destroying spawnpoint child of lefttrack
+	if (MovementRef) {
+		if (!MovementRef) { return; }
+		MovementRef->TrackReference();
+	}
+	AimComponent->GetOwner()->Destroy();
+}
+
+void ATankAIController::Update() {
+	if (IsEnemyDead) {
+		DestroyEnemy();
+	}
 }

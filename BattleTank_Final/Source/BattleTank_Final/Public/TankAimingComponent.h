@@ -59,6 +59,19 @@ public:
 
 	void GetGrabbedGunAmmo(int GrabGunAmmo);
 
+	void RetrievedSavedAmmo(int TankAmmo, int GunAmmo,int MaxGunAmmo);
+
+	//for MachineGun
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Firing")
+		int CurrentGunBullet = 30;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Firing")
+		int MaxGunBullett = 120;
+
+	//for Tank
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Firing")
+		int TankRoundsLeft = 30;
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -93,19 +106,9 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 		float ReloadTimeInSecond = 3;//holds fire for 3 second
 
-	//for Tank
-	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-		int TankRoundsLeft = 3;
-
 	//for MachineGun
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-		int MaxGunBullett = 120;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 		int MagazineSize =30 ;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-		int CurrentGunBullet = 30;
 
 	UTankBarrel* Barrel = nullptr;
 
@@ -120,4 +123,5 @@ private:
 	void Delay();
 
 	bool IsReloading=true;
+
 };

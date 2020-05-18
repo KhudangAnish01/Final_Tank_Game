@@ -27,6 +27,8 @@ protected:
 
 	class UPrimitiveComponent* TankRoot;
 
+	class USaveProgress* SaveProgressInstance;
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

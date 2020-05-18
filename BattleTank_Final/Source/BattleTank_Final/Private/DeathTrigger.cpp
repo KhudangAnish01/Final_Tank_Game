@@ -1,5 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "TankAimingComponent.h"
+#include "Tank.h"
 #include"Kismet/GameplayStatics.h"
 #include "SaveProgress.h"
 #include "BattleTank_FinalGameModeBase.h"
@@ -34,11 +36,15 @@ void ADeathTrigger::CheckPoint(UPrimitiveComponent* OverlappedComp, AActor* Othe
 		auto player = GetWorld()->GetFirstPlayerController()->GetPawn();
 		if (OtherActor == player)
 		{
+			auto AmmingRef = player->FindComponentByClass<UTankAimingComponent>();
 			//create instance of our USaveProgress
 			USaveProgress* SaveProgressInstance =Cast<USaveProgress>(UGameplayStatics::CreateSaveGameObject(USaveProgress::StaticClass()));//casting int USaveProgress cause CreateSaveGameObject create USaveGame object;
 			//Saving Position of Player
 			SaveProgressInstance->PlayerPosition = player->GetActorLocation();
-			SaveProgressInstance->PlayerRotation = player->GetActorRotation();
+			SaveProgressInstance->PlayerLife = Cast<ATank>(player)->ReturnCurrentHealth();
+			SaveProgressInstance->MachinegunAmmo = AmmingRef->GetCurrentGunBullet();
+			SaveProgressInstance->TankAmmo = AmmingRef->GetTankBullet();
+			SaveProgressInstance->MaxMachinegunAmmo = AmmingRef->GetMaxGunBullet();
 			//Save the USaveProgress Instance
 			UGameplayStatics::SaveGameToSlot(SaveProgressInstance, TEXT("CheckPoint"), 0);
 		}
