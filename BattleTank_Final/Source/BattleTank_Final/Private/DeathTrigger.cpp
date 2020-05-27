@@ -22,6 +22,7 @@ void ADeathTrigger::BeginPlay()
 {
 	Super::BeginPlay();
 	DeathTrigger->OnComponentBeginOverlap.AddDynamic(this, &ADeathTrigger::CheckPoint);
+	DeathTrigger->OnComponentEndOverlap.AddDynamic(this, &ADeathTrigger::OnCheckPointEnd);
 }
 
 // Called every frame
@@ -31,23 +32,32 @@ void ADeathTrigger::Tick(float DeltaTime)
 }
 
 void ADeathTrigger::CheckPoint(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
-	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr)) {
+	if (DOOnce) {
+		if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr)) {
 
-		auto player = GetWorld()->GetFirstPlayerController()->GetPawn();
-		if (OtherActor == player)
-		{
-			auto AmmingRef = player->FindComponentByClass<UTankAimingComponent>();
-			//create instance of our USaveProgress
-			USaveProgress* SaveProgressInstance =Cast<USaveProgress>(UGameplayStatics::CreateSaveGameObject(USaveProgress::StaticClass()));//casting int USaveProgress cause CreateSaveGameObject create USaveGame object;
-			//Saving Position of Player
-			SaveProgressInstance->PlayerPosition = player->GetActorLocation();
-			SaveProgressInstance->PlayerLife = Cast<ATank>(player)->ReturnCurrentHealth();
-			SaveProgressInstance->MachinegunAmmo = AmmingRef->GetCurrentGunBullet();
-			SaveProgressInstance->TankAmmo = AmmingRef->GetTankBullet();
-			SaveProgressInstance->MaxMachinegunAmmo = AmmingRef->GetMaxGunBullet();
-			//Save the USaveProgress Instance
-			UGameplayStatics::SaveGameToSlot(SaveProgressInstance, TEXT("CheckPoint"), 0);
+			auto player = GetWorld()->GetFirstPlayerController()->GetPawn();
+			if (OtherActor == player)
+			{
+				auto AmmingRef = player->FindComponentByClass<UTankAimingComponent>();
+				//create instance of our USaveProgress
+				USaveProgress* SaveProgressInstance = Cast<USaveProgress>(UGameplayStatics::CreateSaveGameObject(USaveProgress::StaticClass()));//casting int USaveProgress cause CreateSaveGameObject create USaveGame object;
+				//Saving Position of Player
+				SaveProgressInstance->PlayerPosition = player->GetActorLocation();
+				SaveProgressInstance->PlayerLife = Cast<ATank>(player)->ReturnCurrentHealth();
+				SaveProgressInstance->MachinegunAmmo = AmmingRef->GetCurrentGunBullet();
+				SaveProgressInstance->TankAmmo = AmmingRef->GetTankBullet();
+				SaveProgressInstance->MaxMachinegunAmmo = AmmingRef->GetMaxGunBullet();
+				//Save the USaveProgress Instance
+				UGameplayStatics::SaveGameToSlot(SaveProgressInstance, TEXT("CheckPoint"), 0);
+				DOOnce = false;
+				UE_LOG(LogTemp, Warning, TEXT("CheckPointIn"));
+			}
 		}
 	}
+}
+
+void ADeathTrigger::OnCheckPointEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex){
+	DOOnce = true;
+	UE_LOG(LogTemp, Warning, TEXT("CheckPointOut"));
 }
 
