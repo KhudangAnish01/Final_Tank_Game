@@ -34,5 +34,5 @@ public:
 		int TankAmmo;
 
 	UPROPERTY(BlueprintReadWrite, Category = "SavingProgress")
-		TMap<class ATankAIController*, bool>LevelSavedData;
+		TArray<FString>LevelSavedDatas;
 };

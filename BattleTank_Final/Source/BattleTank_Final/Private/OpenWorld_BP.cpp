@@ -14,70 +14,49 @@ void AOpenWorld_BP:: BeginPlay(){
 	Super::BeginPlay();
 	auto GameInstanceRef= Cast<UMenuSwitchGameInstance>(GetGameInstance());
 	if (GameInstanceRef->LoadSwitch) {//New Or Continue
-		if (UGameplayStatics::DoesSaveGameExist("EnemyStatus", 0)) {
-			UGameplayStatics::DeleteGameInSlot("EnemyStatus", 0);
+		if (UGameplayStatics::DoesSaveGameExist("EnemyStatus", 1)) {
+			UGameplayStatics::DeleteGameInSlot("EnemyStatus", 1);
 		}
 		if (UGameplayStatics::DoesSaveGameExist("CheckPoint", 0)) {
 			UGameplayStatics::DeleteGameInSlot("CheckPoint", 0);
 		}
-		USaveProgress* SaveProgressInstance = Cast<USaveProgress>(UGameplayStatics::CreateSaveGameObject(USaveProgress::StaticClass()));//casting int USaveProgress cause CreateSaveGameObject create USaveGame object;
-		UGameplayStatics::SaveGameToSlot(SaveProgressInstance, TEXT("EnemyStatus"), 0);
 	}
 
 	if (UGameplayStatics::DoesSaveGameExist("CheckPoint", 0)) {
-		SavePlayerStatus();//saving enemy Status
+		LoadPlayerStatus();//saving enemy Status
 	}
 
 	AMyGameStateBase* const MyGameState = GetWorld() != NULL ? GetWorld()->GetGameState<AMyGameStateBase>() : NULL;
 	MyGameState->EnemyDestroyed.AddDynamic(this, &AOpenWorld_BP::BindingFunction);
-	LoadingEnemyData();//Loading Saved Data
-
 	//GetAllAcctorOfClass(Getting All AI ref)
 	TArray<AActor*> FoundActors;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ATankAIController::StaticClass(), FoundActors);
 
 	for (auto& AIRef : FoundActors) {
 		auto Ref = Cast<ATankAIController>(AIRef);
-		bool FindAIRef = SavedData.Contains(Ref);
-		if (FindAIRef) {
-			Ref->IsEnemyDead = FindAIRef;
-			Ref->Update();
-			UE_LOG(LogTemp, Warning, TEXT("hello"));
+		for (auto& SaveGameRef : GameInstanceRef->SaveGameInstance->LevelSavedDatas) {
+			if ((Ref->GetName()== SaveGameRef)) {
+				Ref->IsEnemyDead = true;
+				Ref->Update();
+				UE_LOG(LogTemp, Warning, TEXT("hello"));
+			}
 		}
 	}
 }
 
-void AOpenWorld_BP::LoadingEnemyData() {
-	if (UGameplayStatics::DoesSaveGameExist("EnemyStatus", 0)) {
-		auto SaveProgressInstance = Cast<USaveProgress>(UGameplayStatics::LoadGameFromSlot("EnemyStatus", 0));
-		if (!SaveProgressInstance) { return; }
-		SavedData = SaveProgressInstance->LevelSavedData;
-	}
-}
-
-void AOpenWorld_BP::SavingEnemyData() {
-	if (UGameplayStatics::DoesSaveGameExist("EnemyStatus", 0)) {
-		auto SaveProgressInstance = Cast<USaveProgress>(UGameplayStatics::LoadGameFromSlot("EnemyStatus", 0));
-		if (!SaveProgressInstance) { return; }
-		SaveProgressInstance->LevelSavedData.Append(SavedData);
-		UGameplayStatics::SaveGameToSlot(SaveProgressInstance, TEXT("EnemyStatus"), 0);
-	}
-}
-
-void AOpenWorld_BP::SavePlayerStatus() {
-	if (UGameplayStatics::DoesSaveGameExist("CheckPoint", 0)) {
-		auto PlayerRef = GetWorld()->GetFirstPlayerController()->GetPawn();
-		auto AimComponent = PlayerRef->FindComponentByClass<UTankAimingComponent>();
-		auto SaveProgressInstance = Cast<USaveProgress>(UGameplayStatics::LoadGameFromSlot("CheckPoint", 0));
-		FHitResult Hit;
-		PlayerRef->SetActorLocation(SaveProgressInstance->PlayerPosition, false, &Hit, ETeleportType::TeleportPhysics);
-		AimComponent->RetrievedSavedAmmo(SaveProgressInstance->TankAmmo, SaveProgressInstance->MachinegunAmmo, SaveProgressInstance->MaxMachinegunAmmo);
-		Cast<ATank>(PlayerRef)->ReSpawn(SaveProgressInstance->PlayerLife);
-		//
-	}
+void AOpenWorld_BP::LoadPlayerStatus() {
+		auto GameInstanceRef = Cast<UMenuSwitchGameInstance>(GetWorld()->GetGameInstance());
+		if (!GameInstanceRef) { return; }
+		GameInstanceRef->LoadPlayerStatus();
 }
 
 void AOpenWorld_BP::BindingFunction(class ATankAIController* Enemy) {
-	SavedData.Add(Enemy, Enemy->IsEnemyDead);
-	SavingEnemyData();
+	auto GameInstanceRef = Cast<UMenuSwitchGameInstance>(GetGameInstance());
+	FAsyncSaveGameToSlotDelegate SavedDelegate;
+	SavedDelegate.BindUObject(this, &AOpenWorld_BP::SaveGameDelegateFunction);
+	GameInstanceRef->SaveGameInstance->LevelSavedDatas.Add(Enemy->GetName());
+	UGameplayStatics::AsyncSaveGameToSlot(GameInstanceRef->SaveGameInstance, TEXT("CheckPoint"), 0, SavedDelegate);
+}
+
+void AOpenWorld_BP::SaveGameDelegateFunction(const FString& SlotName, const int32 UserIndex, bool bSuccess) {
 }

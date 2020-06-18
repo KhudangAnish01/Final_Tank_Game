@@ -19,14 +19,11 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
-	TMap<class ATankAIController*, bool>SavedData;
-
-	void LoadingEnemyData();
-
-	void SavingEnemyData();
-
-	void SavePlayerStatus();
+	void LoadPlayerStatus();
 
 	UFUNCTION()
 	void BindingFunction(class ATankAIController* Enemy);
+
+	UFUNCTION()
+	void SaveGameDelegateFunction(const FString& SlotName, const int32 UserIndex, bool bSuccess);
 };

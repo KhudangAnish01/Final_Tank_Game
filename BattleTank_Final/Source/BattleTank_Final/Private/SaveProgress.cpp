@@ -9,6 +9,4 @@ USaveProgress::USaveProgress() {
 	MachinegunAmmo = 0;
 	TankAmmo = 0;
 	MaxMachinegunAmmo = 0;
-	LevelSavedData.Add(nullptr, false);
-
 }
