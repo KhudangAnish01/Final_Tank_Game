@@ -24,13 +24,13 @@ public:
 
     void DestroySpawnPoint();
 
+    void DriveTrack(float CurrentThrottle);
+
+    TArray<class ASprungWheel*> GetWheels();
+
 protected:
     TArray<USceneComponent*>Children;  
 
 private:
     UTankTrack();
-
-    void DriveTrack(float CurrentThrottle);
-
-    TArray<class ASprungWheel*> GetWheels();
 }; 

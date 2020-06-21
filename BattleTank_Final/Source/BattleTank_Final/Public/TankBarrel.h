@@ -20,7 +20,6 @@ public:
 	//-1 is max downward speed and +1 is max upward speed
 	void ElevateBarrel(float RelativeSpeed);
 
-private:
 	UPROPERTY(EditDefaultsOnly, Category =" Setup")
 		float MaxDegreePerSecond = 15.0;//how fast u want to move barrel
 
