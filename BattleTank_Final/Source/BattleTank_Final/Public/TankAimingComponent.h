@@ -28,8 +28,6 @@ public:
 
 	void AimAt(FVector HitLocation);
 
-	FVector AimDirection;//Drection that define where is normal unit arrow is forwarding;
-
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 		void initialse(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
@@ -74,6 +72,11 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Firing")
 		int TankRoundsLeft = 30;
 
+	// Called every frame
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -90,14 +93,10 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "Reload")
 	void Reloading();
 
-public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-	void MoveBarrelTowards(FVector AimDirection);
-
 private:
 	// Sets default values for this component's properties
+	void MoveBarrelTowards(FVector AimDirection);
+
 	UTankAimingComponent();
 
 	bool IsBarrelMoving();
@@ -124,4 +123,5 @@ private:
 
 	bool IsReloading=true;
 
+	FVector AimDirection;//Drection that define where is normal unit arrow is forwarding;
 };

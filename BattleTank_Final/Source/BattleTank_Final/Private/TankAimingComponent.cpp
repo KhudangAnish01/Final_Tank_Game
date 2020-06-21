@@ -116,12 +116,12 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 	//if no solution then do nothing
 }
 
-void  UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
+void UTankAimingComponent::MoveBarrelTowards(FVector TargetAimDirection)
 {
 	if (!ensure(Barrel) || !ensure(Turret)) { return; }
 	//work-out Difference Between current Barrel Rotation and AimDirection
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
-	auto AimAsRotator = AimDirection.Rotation();//AimDirection is used here as initial value for barrel pointing
+	auto AimAsRotator = TargetAimDirection.Rotation();//AimDirection is used here as initial value for barrel pointing
 	auto DeltaRotator = AimAsRotator - BarrelRotator;//(if Barrel move up then +ve ,if Barrel move up We get -ve)
 	Barrel->ElevateBarrel(DeltaRotator.Pitch);
 
@@ -133,6 +133,7 @@ void  UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	{
 		Turret->RotateTurret(-DeltaRotator.Yaw);
 	}
+
 }
 	
 void UTankAimingComponent::Fire()

@@ -20,17 +20,17 @@ public:
 
     //Max Force track applied ,in newton
     UPROPERTY(EditDefaultsOnly)
-        float TrackMaxDrivingForce = 50000000;
+     float TrackMaxDrivingForce = 50000000;
 
     void DestroySpawnPoint();
-
-    void DriveTrack(float CurrentThrottle);
-
-    TArray<class ASprungWheel*> GetWheels();
 
 protected:
     TArray<USceneComponent*>Children;  
 
 private:
     UTankTrack();
+
+    void DriveTrack(float CurrentThrottle);
+
+    TArray<class ASprungWheel*> GetWheels();
 }; 
