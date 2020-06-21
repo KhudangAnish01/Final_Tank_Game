@@ -28,6 +28,8 @@ public:
 
 	void AimAt(FVector HitLocation);
 
+	FVector AimDirection;//Drection that define where is normal unit arrow is forwarding;
+
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 		void initialse(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
@@ -115,8 +117,6 @@ private:
 	UTankTurret* Turret = nullptr;
 
 	double LastFireTime = 0;
-
-	FVector AimDirection;//Drection that define where is normal unit arrow is forwarding;
 
 	float ReloadTimeGun = 2;
 

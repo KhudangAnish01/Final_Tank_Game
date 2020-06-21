@@ -18,7 +18,6 @@ public:
 	//-1 is max downward speed and +1 is max upward speed
 	void RotateTurret(float RelativeSpeed);
 
-private:
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 		float MaxDegreePerSecond = 25.0;
 	
