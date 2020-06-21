@@ -1,5 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "OpenWorld_BP.h"
 #include "TankAIController.h"
 #include "MyGameStateBase.h"
 #include "Tank.h"
@@ -8,7 +9,6 @@
 #include"Kismet/GameplayStatics.h"
 #include "SaveProgress.h"
 #include "MenuSwitchGameInstance.h"
-#include "OpenWorld_BP.h"
 
 void AOpenWorld_BP:: BeginPlay(){
 	Super::BeginPlay();

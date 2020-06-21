@@ -92,11 +92,11 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	void MoveBarrelTowards(FVector AimDirection);
+
 private:
 	// Sets default values for this component's properties
 	UTankAimingComponent();
-
-	void MoveBarrelTowards(FVector AimDirection);
 
 	bool IsBarrelMoving();
 

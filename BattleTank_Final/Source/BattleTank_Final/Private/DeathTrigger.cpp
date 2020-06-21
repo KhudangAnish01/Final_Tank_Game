@@ -1,9 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "DeathTrigger.h"
 #include "MenuSwitchGameInstance.h"
 #include "BattleTank_FinalGameModeBase.h"
 #include "Components/BoxComponent.h"
-#include "DeathTrigger.h"
 
 // Sets default values
 ADeathTrigger::ADeathTrigger()

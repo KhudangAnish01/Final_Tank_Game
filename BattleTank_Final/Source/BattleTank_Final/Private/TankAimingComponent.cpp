@@ -1,11 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
+
+#include "TankAimingComponent.h"
 #include "TimerManager.h"
 #include "TankTurret.h"
 #include "TankBarrel.h"
 #include"Kismet/GameplayStatics.h"
 #include"Components/StaticMeshComponent.h"
 #include "Engine/World.h"
-#include "TankAimingComponent.h"
 #include"Projectile.h"
 
 // Sets default values for this component's properties

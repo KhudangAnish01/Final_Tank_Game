@@ -1,4 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
+
+#include "TankAIController.h"
 #include "MyGameStateBase.h"
 #include "TankMovementComponent.h"
 #include "TimerManager.h"
@@ -6,7 +8,6 @@
 #include "BattleTank_FinalGameModeBase.h"
 #include "Engine/World.h"
 #include "Tank.h"
-#include "TankAIController.h"
 
 void ATankAIController::BeginPlay()
 {

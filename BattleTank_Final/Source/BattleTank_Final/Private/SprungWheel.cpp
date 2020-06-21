@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "SprungWheel.h"
 #include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
-#include "SprungWheel.h"
 
 // Sets default values
 ASprungWheel::ASprungWheel()
