@@ -140,7 +140,7 @@ void UTankAimingComponent::Fire()
 {
 	if (FiringState== EFiringState::Aiming || FiringState == EFiringState::Locked) {//locked means while not moving barel
 		if (!ensure(Barrel)) { return; }
-		if (!ensure(ProjectileBlueprint)) { return; }
+		if (!ProjectileBlueprint) { return; }
 		if (TankRoundsLeft != 0) {
 			auto Projectile = GetWorld()->SpawnActor<AProjectile>(
 				ProjectileBlueprint,
@@ -158,7 +158,7 @@ void UTankAimingComponent::Fire()
 void UTankAimingComponent::FireBullet() {
 	if (FiringState == EFiringState::Aiming || FiringState == EFiringState::Locked) {
 		if (!ensure(Barrel)) { return; }
-		if (!ensure(ProjectileBlueprint1)) { return; }
+		if (!ProjectileBlueprint1) { return; }
 		if (CurrentGunBullet != 0) {
 			auto Projectile = GetWorld()->SpawnActor<AProjectile>(
 				ProjectileBlueprint1,
